@@ -1,3 +1,12 @@
+#Datasets
+NYUDepthv2/
+
+#Logfiles
+log*/
+pretrained/
+#model
+*.pth
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
