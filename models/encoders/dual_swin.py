@@ -17,8 +17,8 @@ from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from utils.load_utils import load_state_dict
 from engine.logger import get_logger
 
-from ..net_utils import FuseModule
-from ..net_utils import FeatureRectify as FR
+from ..net_utils import FeatureFusionModule as FFM
+from ..net_utils import FeatureRectifyModule as FRM
 
 logger = get_logger()
 
@@ -523,8 +523,8 @@ class DualSwinTransformer(nn.Module):
         self.layers_d = nn.ModuleList()
         self.downsamples = nn.ModuleList()
         self.downsamples_d = nn.ModuleList()
-        self.frs = nn.ModuleList()
-        self.fusions = nn.ModuleList()
+        self.FRMs = nn.ModuleList()
+        self.FFMs = nn.ModuleList()
         for i_layer in range(self.num_layers):
             layer = BasicLayer(
                 dim=int(embed_dim * 2 ** i_layer),
@@ -556,8 +556,8 @@ class DualSwinTransformer(nn.Module):
                 use_checkpoint=use_checkpoint)
             self.layers_d.append(layer_d)
 
-            fr = FR(in_channels=int(embed_dim * 2 ** i_layer), out_channels=int(embed_dim * 2 ** i_layer))
-            self.frs.append(fr)
+            fr = FRM(dim=int(embed_dim*2**i_layer), reduction=1)
+            self.FRMs.append(fr)
             # patch merging layer
             if i_layer < self.num_layers - 1:
                 downsample = PatchMerging(dim=int(embed_dim * 2 ** i_layer), norm_layer=norm_layer)
@@ -565,8 +565,8 @@ class DualSwinTransformer(nn.Module):
                 downsample_d = PatchMerging(dim=int(embed_dim * 2 ** i_layer), norm_layer=norm_layer)
                 self.downsamples_d.append(downsample_d)
             
-            fuse = FuseModule(dim=int(embed_dim * 2 ** i_layer), num_heads=num_heads[i_layer], norm_layer=norm_fuse)
-            self.fusions.append(fuse)
+            fuse = FFM(dim=int(embed_dim*2**i_layer), reduction=1, num_heads=num_heads[i_layer], norm_layer=norm_fuse)
+            self.FFMs.append(fuse)
         
         num_features = [int(embed_dim * 2 ** i) for i in range(self.num_layers)]
         self.num_features = num_features
@@ -651,7 +651,7 @@ class DualSwinTransformer(nn.Module):
             # Feature Rectify
             x = x.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
             x_d = x.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
-            x, x_d = self.frs[i](x, x_d)
+            x, x_d = self.FRMs[i](x, x_d)
             x = x_d.flatten(2).transpose(1, 2)
             x_d = x_d.flatten(2).transpose(1, 2)
 
@@ -671,7 +671,7 @@ class DualSwinTransformer(nn.Module):
 
                 x_out = x_out.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
                 x_out_d = x_out_d.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
-                out = self.fusions[i](x_out, x_out_d)
+                out = self.FFMs[i](x_out, x_out_d)
 
                 outs.append(out)
 
