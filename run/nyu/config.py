@@ -47,8 +47,8 @@ C.background = 255
 # Statistik on train set
 C.image_mean = np.array([0.48474, 0.41623, 0.39792]) #[0.485, 0.456, 0.406]
 C.image_std = np.array([0.26400, 0.27250, 0.28229]) #[0.229, 0.224, 0.225]
-C.hha_mean = np.array([0.52234, 0.44826, 0.43878])
-C.hha_std = np.array([0.17047, 0.24475, 0.13624])
+C.hha_mean = np.array([0.48474, 0.41623, 0.39792])#np.array([0.52234, 0.44826, 0.43878])
+C.hha_std = np.array([0.26400, 0.27250, 0.28229]) #np.array([0.17047, 0.24475, 0.13624])
 C.image_height = 480
 C.image_width = 640
 C.num_train_imgs = 795
@@ -62,7 +62,6 @@ C.decoder_embed_dim = 512 # for segformer + MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
 
 """Train Config"""
-
 C.lr = 6e-5
 C.lr_power = 0.9
 C.momentum = 0.9
