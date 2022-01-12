@@ -11,11 +11,10 @@ from engine.logger import get_logger
 logger = get_logger()
 
 class EncoderDecoder(nn.Module):
-    def __init__(self, cfg=None, criterion=nn.CrossEntropyLoss(reduction='mean', ignore_index=255), norm_layer=nn.BatchNorm2d, resize=False):
+    def __init__(self, cfg=None, criterion=nn.CrossEntropyLoss(reduction='mean', ignore_index=255), norm_layer=nn.BatchNorm2d):
         super(EncoderDecoder, self).__init__()
         self.channels = [64, 128, 320, 512]
         self.norm_layer = norm_layer
-        self.resize = resize
         # import backbone and decoder
         if cfg.backbone == 'swin_s':
             logger.info('Using backbone: Swin-Transformer-small')
@@ -64,6 +63,15 @@ class EncoderDecoder(nn.Module):
             logger.info('Using MLP Decoder')
             from .decoders.MLPDecoder import DecoderHead
             self.decode_head = DecoderHead(in_channels=self.channels, num_classes=cfg.num_classes, norm_layer=norm_layer, embed_dim=cfg.decoder_embed_dim)
+        
+        elif cfg.decoder == 'UPernet':
+            logger.info('Using Upernet Decoder')
+            from .decoders.UPernet import UPerHead
+            self.decode_head = UPerHead(in_channels=self.channels ,num_classes=cfg.num_classes, norm_layer=norm_layer, channels=512)
+            from .decoders.fcnhead import FCNHead
+            self.aux_rate = 0.4
+            self.aux_head = FCNHead(in_channels=self.channels[2], in_index=2, channels=256, num_convs=1, kernel_size=3,
+                                    concat_input=False, num_classes=cfg.num_classes, norm_layer=norm_layer)
         
         elif cfg.decoder == 'deeplabv3+':
             logger.info('Using Decoder: DeepLabV3+')
@@ -120,9 +128,9 @@ class EncoderDecoder(nn.Module):
 
     def forward(self, rgb, modal_x, label=None, phase_checkpoint=False):
         if self.aux_head:
-            out, aux_fm = self.encode_decode(rgb, modal_x, phase_checkpoint, resize=self.resize)
+            out, aux_fm = self.encode_decode(rgb, modal_x, phase_checkpoint)
         else:
-            out = self.encode_decode(rgb, modal_x, phase_checkpoint, resize=self.resize)
+            out = self.encode_decode(rgb, modal_x, phase_checkpoint)
         if label is not None:
             loss = self.criterion(out, label.long())
             if self.aux_head:
