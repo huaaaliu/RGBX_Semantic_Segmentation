@@ -122,7 +122,7 @@ class EncoderDecoder(nn.Module):
         out = F.interpolate(out, size=orisize[2:], mode='bilinear', align_corners=False)
         if self.aux_head:
             aux_fm = self.aux_head(x[self.aux_index])
-            aux_fm = F.interpolate(aux_fm, size=orisize.shape[2:], mode='bilinear', align_corners=False)
+            aux_fm = F.interpolate(aux_fm, size=orisize[2:], mode='bilinear', align_corners=False)
             return out, aux_fm
         return out
 
