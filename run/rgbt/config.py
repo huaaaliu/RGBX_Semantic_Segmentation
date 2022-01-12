@@ -26,11 +26,11 @@ C.link_log_file = C.log_file + '/log_last.log'
 C.val_log_file = C.log_dir + '/val_' + exp_time + '.log'
 C.link_val_log_file = C.log_dir + '/val_last.log'
 
-"""Data Dir and Weight Dir NYU"""
+"""Dataset Path"""
 C.dataset_path = osp.join(C.root_dir, 'datasets', 'rgbt')
 C.img_root_folder = osp.join(C.dataset_path, 'rgb')
 C.gt_root_folder = osp.join(C.dataset_path, 'labels')
-C.ther_root_folder = osp.join(C.dataset_path, 'ther')
+C.ther_root_folder = osp.join(C.dataset_path, 't')
 C.train_source = osp.join(C.dataset_path, "train.txt")
 C.eval_source = osp.join(C.dataset_path, "test.txt")
 C.is_test = False
