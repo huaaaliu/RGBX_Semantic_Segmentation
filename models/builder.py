@@ -69,6 +69,7 @@ class EncoderDecoder(nn.Module):
             from .decoders.UPernet import UPerHead
             self.decode_head = UPerHead(in_channels=self.channels ,num_classes=cfg.num_classes, norm_layer=norm_layer, channels=512)
             from .decoders.fcnhead import FCNHead
+            self.aux_index = 2
             self.aux_rate = 0.4
             self.aux_head = FCNHead(self.channels[2], cfg.num_classes, norm_layer=norm_layer)
         
