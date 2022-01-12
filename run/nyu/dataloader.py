@@ -4,7 +4,7 @@ import numpy as np
 from torch.utils import data
 import random
 from config import config
-from utils.img_utils import generate_random_crop_pos, random_crop_pad_to_shape
+from utils.img_utils import generate_random_crop_pos, random_crop_pad_to_shape, normalize
 
 def random_mirror(img, gt, hha):
     if random.random() >= 0.5:
@@ -13,15 +13,6 @@ def random_mirror(img, gt, hha):
         hha = cv2.flip(hha, 1)
 
     return img, gt, hha
-
-def normalize(img, mean, std):
-    # pytorch pretrained model need the input range: 0-1
-    img = img.astype(np.float32) / 255.0
-    img = img - mean
-    img = img / std
-
-    return img
-
 
 def random_scale(img, gt, hha, scales):
     scale = random.choice(scales)

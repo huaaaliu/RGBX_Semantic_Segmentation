@@ -187,5 +187,4 @@ def normalize(img, mean, std):
     img = img.astype(np.float32) / 255.0
     img = img - mean
     img = img / std
-
     return img

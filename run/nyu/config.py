@@ -46,9 +46,9 @@ C.num_classes = 40
 C.background = 255
 # Statistik on train set
 C.image_mean = np.array([0.48474, 0.41623, 0.39792]) #[0.485, 0.456, 0.406]
-C.image_std = np.array([0.26400, 0.27250, 0.28229]) #[0.229, 0.224, 0.225]
-C.hha_mean = np.array([0.48474, 0.41623, 0.39792])#np.array([0.52234, 0.44826, 0.43878])
-C.hha_std = np.array([0.26400, 0.27250, 0.28229]) #np.array([0.17047, 0.24475, 0.13624])
+C.image_std = np.array([0.26400, 0.27250, 0.28229])  #[0.229, 0.224, 0.225]
+C.hha_mean = np.array([0.52234, 0.44826, 0.43878])
+C.hha_std = np.array([0.17047, 0.24475, 0.13624])
 C.image_height = 480
 C.image_width = 640
 C.num_train_imgs = 795
@@ -56,9 +56,9 @@ C.num_eval_imgs = 654
 
 """ Settings for network, this would be different for each kind of model"""
 C.backbone = 'mit_b2' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/segformers/mit_b2.pth'
+C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
 C.decoder = 'MLPDecoder'
-C.decoder_embed_dim = 512 # for segformer + MLP decoder
+C.decoder_embed_dim = 512 # valid for MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
 
 """Train Config"""
@@ -80,13 +80,13 @@ C.bn_momentum = 0.1
 """Eval Config"""
 C.eval_iter = 25
 C.eval_stride_rate = 2 / 3
-C.eval_scale_array = [1] # [0.75, 1, 1.25] # 
-C.eval_flip = False # True # 
+C.eval_scale_array = [0.75, 1, 1.25] # [1] # 
+C.eval_flip = True # False # 
 C.eval_base_size = [480, 640] 
 C.eval_crop_size = [480, 640]
 """Display Config"""
-C.save_start_epoch = 200
-C.snapshot_iter = 50
+C.save_start_epoch = 150
+C.snapshot_iter = 25
 C.record_info_iter = 200
 C.display_iter = 200
 

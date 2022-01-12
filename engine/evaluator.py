@@ -16,7 +16,7 @@ logger = get_logger()
 
 
 class Evaluator(object):
-    def __init__(self, dataset, class_num, image_mean, image_std, network,
+    def __init__(self, dataset, class_num, image_mean, image_std, x_mean, x_std, network,
                  multi_scales, is_flip, devices,
                  verbose=False, save_path=None, show_image=False):
         self.eval_time = 0
@@ -25,6 +25,8 @@ class Evaluator(object):
         self.class_num = class_num
         self.image_mean = image_mean
         self.image_std = image_std
+        self.x_mean = x_mean
+        self.x_std = x_std
         self.multi_scales = multi_scales
         self.is_flip = is_flip
         self.network = network
@@ -411,7 +413,7 @@ class Evaluator(object):
         if len(X.shape) == 2:
             p_X = normalize(p_X, 0, 1)
         else:
-            p_X = normalize(p_X, self.image_mean, self.image_std)
+            p_X = normalize(p_X, self.x_mean, self.x_std)
     
         if crop_size is not None:
             p_img, margin = pad_image_to_shape(p_img, crop_size, cv2.BORDER_CONSTANT, value=0)
