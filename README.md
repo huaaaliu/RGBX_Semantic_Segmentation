@@ -1,10 +1,5 @@
 # RGBX_Semantic_Segmentation
 
-
-
-**！！！代码更新： 网络结构最后改了一遍，然后segformer的pretrain要重新下载一下。
-配置： Segformer用 MLPDecoder（dim=512/768）， Swin 用‘UPernet’ dim=512。**
-
 **Install dependencies.**
 
    * Python + numpy

@@ -11,7 +11,6 @@ def random_mirror(img, gt, ther):
         img = cv2.flip(img, 1)
         gt = cv2.flip(gt, 1)
         ther = cv2.flip(ther, 1)
-
     return img, gt, ther
 
 def random_scale(img, gt, ther, scales):
@@ -47,6 +46,7 @@ class TrainPre(object):
         p_gt, _ = random_crop_pad_to_shape(gt, crop_pos, crop_size, 255)
         p_ther, _ = random_crop_pad_to_shape(ther, crop_pos, crop_size, 0)
 
+        p_ther = np.repeat(p_ther[...,np.newaxis], 3, axis=2)
         p_img = p_img.transpose(2, 0, 1)
         p_ther = p_ther.transpose(2, 0, 1)
 
@@ -56,6 +56,7 @@ class TrainPre(object):
 
 class ValPre(object):
     def __call__(self, img, gt, ther):
+        ther = np.repeat(ther[...,np.newaxis], 3, axis=2)
         extra_dict = {'ther_img': ther}
         return img, gt, extra_dict
 

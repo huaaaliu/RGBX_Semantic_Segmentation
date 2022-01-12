@@ -55,9 +55,9 @@ C.num_train_imgs = 795
 C.num_eval_imgs = 654
 
 """ Settings for network, this would be different for each kind of model"""
-C.backbone = 'swin_s' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/swin/swin_small.pth'
-C.decoder = 'UPernet' #'MLPDecoder'
+C.backbone = 'mit_b2' # Remember change the path below.
+C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
+C.decoder = 'MLPDecoder' #'UPernet'#
 C.decoder_embed_dim = 512 # valid for MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
 
@@ -80,8 +80,8 @@ C.bn_momentum = 0.1
 """Eval Config"""
 C.eval_iter = 25
 C.eval_stride_rate = 2 / 3
-C.eval_scale_array = [0.75, 1, 1.25] # [1] # 
-C.eval_flip = True # False # 
+C.eval_scale_array = [1] # [0.75, 1, 1.25] # 
+C.eval_flip = False # True # 
 C.eval_base_size = [480, 640] 
 C.eval_crop_size = [480, 640]
 """Display Config"""

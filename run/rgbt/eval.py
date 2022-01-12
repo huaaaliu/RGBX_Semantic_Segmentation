@@ -15,7 +15,7 @@ from utils.visualize import print_iou, show_img
 from engine.evaluator import Evaluator
 from engine.logger import get_logger
 from utils.metric import hist_info, compute_score
-from nyu import NYUv2
+from rgbt import RGBT
 from models.builder import EncoderDecoder as segmodel
 from dataloader import ValPre
 
@@ -25,9 +25,9 @@ class SegEvaluator(Evaluator):
     def func_per_iteration(self, data, device):
         img = data['data']
         label = data['label']
-        hha = data['hha_img']
+        ther = data['ther_img']
         name = data['fn']
-        pred = self.sliding_eval_rgbX(img, hha, config.eval_crop_size, config.eval_stride_rate, device)
+        pred = self.sliding_eval_rgbX(img, ther, config.eval_crop_size, config.eval_stride_rate, device)
         hist_tmp, labeled_tmp, correct_tmp = hist_info(config.num_classes, pred, label)
         results_dict = {'hist': hist_tmp, 'labeled': labeled_tmp,
                         'correct': correct_tmp}
@@ -94,16 +94,16 @@ if __name__ == "__main__":
     network = segmodel(cfg=config, criterion=None, norm_layer=nn.BatchNorm2d)
     data_setting = {'img_root': config.img_root_folder,
                     'gt_root': config.gt_root_folder,
-                    'hha_root': config.hha_root_folder,
+                    'ther_root': config.ther_root_folder,
                     'train_source': config.train_source,
                     'eval_source': config.eval_source}
     val_pre = ValPre()
-    dataset = NYUv2(data_setting, 'val', val_pre)
+    dataset = RGBT(data_setting, 'val', val_pre)
 
     with torch.no_grad():
         segmentor = SegEvaluator(dataset, config.num_classes, config.image_mean,
-                                 config.image_std, config.hha_mean,
-                                 config.hha_std, network,
+                                 config.image_std, config.ther_mean,
+                                 config.ther_std, network,
                                  config.eval_scale_array, config.eval_flip,
                                  all_dev, args.verbose, args.save_path,
                                  args.show_image)

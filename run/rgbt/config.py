@@ -27,9 +27,9 @@ C.val_log_file = C.log_dir + '/val_' + exp_time + '.log'
 C.link_val_log_file = C.log_dir + '/val_last.log'
 
 """Data Dir and Weight Dir NYU"""
-C.dataset_path = osp.join(C.root_dir, 'datasets', 'NYUDepthv2')
-C.img_root_folder = C.dataset_path
-C.gt_root_folder = C.dataset_path
+C.dataset_path = osp.join(C.root_dir, 'datasets', 'rgbt')
+C.img_root_folder = osp.join(C.dataset_path, 'rgb')
+C.gt_root_folder = osp.join(C.dataset_path, 'labels')
 C.ther_root_folder = osp.join(C.dataset_path, 'ther')
 C.train_source = osp.join(C.dataset_path, "train.txt")
 C.eval_source = osp.join(C.dataset_path, "test.txt")
@@ -42,7 +42,7 @@ def add_path(path):
 add_path(osp.join(C.root_dir))
 
 """Image Config"""
-C.num_classes = 40
+C.num_classes = 9
 C.background = 255
 # Statistik on train set
 C.image_mean = np.array([0.22156, 0.25873, 0.23003])
@@ -51,14 +51,14 @@ C.ther_mean = np.array([0.39541])
 C.ther_std = np.array([0.07578])
 C.image_height = 480
 C.image_width = 640
-C.num_train_imgs = 795
-C.num_eval_imgs = 654
+C.num_train_imgs = 784
+C.num_eval_imgs = 393 #205 day #188 night
 
 """ Settings for network, this would be different for each kind of model"""
-C.backbone = 'mit_b2' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
+C.backbone = 'mit_b4' # Remember change the path below.
+C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b4.pth'
 C.decoder = 'MLPDecoder'
-C.decoder_embed_dim = 512 # valid for MLP decoder
+C.decoder_embed_dim = 768 # valid for MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
 
 """Train Config"""
@@ -66,7 +66,7 @@ C.lr = 6e-5
 C.lr_power = 0.9
 C.momentum = 0.9
 C.weight_decay = 0.01
-C.batch_size = 4
+C.batch_size = 8
 C.nepochs = 500
 C.niters_per_epoch = C.num_train_imgs // C.batch_size  + 1
 C.num_workers = 16
@@ -80,8 +80,8 @@ C.bn_momentum = 0.1
 """Eval Config"""
 C.eval_iter = 25
 C.eval_stride_rate = 2 / 3
-C.eval_scale_array = [0.75, 1, 1.25] # [1] # 
-C.eval_flip = True # False # 
+C.eval_scale_array = [1]
+C.eval_flip = False
 C.eval_base_size = [480, 640] 
 C.eval_crop_size = [480, 640]
 """Display Config"""

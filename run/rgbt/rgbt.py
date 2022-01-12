@@ -1,7 +1,6 @@
-# encoding: utf-8
 import numpy as np
 import torch
-from datasets.BaseDataset import BaseDataset
+from engine.BaseDataset import BaseDataset
 import os
 import cv2
 
@@ -32,7 +31,6 @@ class RGBT(BaseDataset):
         img, gt, ther = self._fetch_data(img_path, gt_path, ther_path)
 
         img = img[:, :, ::-1]
-        ther = cv2.merge([ther, ther, ther])
         
         if self.preprocess is not None:
             img, gt, extra_dict = self.preprocess(img, gt, ther)
