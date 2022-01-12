@@ -55,9 +55,9 @@ C.num_train_imgs = 795
 C.num_eval_imgs = 654
 
 """ Settings for network, this would be different for each kind of model"""
-C.backbone = 'mit_b2' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
-C.decoder = 'MLPDecoder'
+C.backbone = 'swin_s' # Remember change the path below.
+C.pretrained_model = C.root_dir + '/pretrained/swin/swin_small.pth'
+C.decoder = 'Upernet' #'MLPDecoder'
 C.decoder_embed_dim = 512 # valid for MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
 
