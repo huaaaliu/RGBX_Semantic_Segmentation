@@ -70,8 +70,7 @@ class EncoderDecoder(nn.Module):
             self.decode_head = UPerHead(in_channels=self.channels ,num_classes=cfg.num_classes, norm_layer=norm_layer, channels=512)
             from .decoders.fcnhead import FCNHead
             self.aux_rate = 0.4
-            self.aux_head = FCNHead(in_channels=self.channels[2], in_index=2, channels=256, num_convs=1, kernel_size=3,
-                                    concat_input=False, num_classes=cfg.num_classes, norm_layer=norm_layer)
+            self.aux_head = FCNHead(self.channels[2], cfg.num_classes, norm_layer=norm_layer)
         
         elif cfg.decoder == 'deeplabv3+':
             logger.info('Using Decoder: DeepLabV3+')
@@ -80,7 +79,7 @@ class EncoderDecoder(nn.Module):
             from .decoders.fcnhead import FCNHead
             self.aux_index = 2
             self.aux_rate = 0.4
-            self.aux_head = FCNHead(self.channels[2], cfg.num_classes)
+            self.aux_head = FCNHead(self.channels[2], cfg.num_classes, norm_layer=norm_layer)
 
         elif cfg.decoder == 'No':
             logger.info('No decoder(FCN-32s)')

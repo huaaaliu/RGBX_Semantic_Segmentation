@@ -57,7 +57,7 @@ C.num_eval_imgs = 654
 """ Settings for network, this would be different for each kind of model"""
 C.backbone = 'swin_s' # Remember change the path below.
 C.pretrained_model = C.root_dir + '/pretrained/swin/swin_small.pth'
-C.decoder = 'Upernet' #'MLPDecoder'
+C.decoder = 'UPernet' #'MLPDecoder'
 C.decoder_embed_dim = 512 # valid for MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
 
