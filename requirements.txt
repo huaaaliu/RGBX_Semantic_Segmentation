@@ -1,0 +1,5 @@
+torch==1.7.0+cu102
+cudnn==7.6.5
+easydict>=1.9
+opencv-python>=4.5.0
+timm>=0.4.10
