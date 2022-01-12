@@ -3,7 +3,6 @@ NYUDepthv2/
 
 #Logfiles
 log*/
-pretrained/
 #model
 *.pth
 
