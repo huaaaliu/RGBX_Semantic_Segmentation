@@ -59,15 +59,15 @@ C.backbone = 'resnet101' # Remember change the path below.
 C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b4.pth'
 C.decoder = 'deeplabv3+' #'MLPDecoder' #'UPernet'# 
 C.decoder_embed_dim = 512 # valid for MLP decoder
-C.optimizer = 'AdamW' #'SGDM'# 
+C.optimizer = 'SGDM'# 'AdamW' #
 
 """Train Config"""
-C.lr = 6e-5
+C.lr = 0.01 #6e-5
 C.lr_power = 0.9
 C.momentum = 0.9
-C.weight_decay = 0.01
-C.batch_size = 4
-C.nepochs = 500
+C.weight_decay = 5e-4 #0.01
+C.batch_size = 8
+C.nepochs = 800
 C.niters_per_epoch = C.num_train_imgs // C.batch_size  + 1
 C.num_workers = 16
 C.train_scale_array = [0.5, 0.75, 1, 1.25, 1.5, 1.75]
