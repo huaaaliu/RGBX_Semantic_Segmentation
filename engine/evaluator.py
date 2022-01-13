@@ -309,7 +309,7 @@ class Evaluator(object):
     # add new funtion for rgb and modal X segmentation
     def sliding_eval_rgbX(self, img, X, crop_size, stride_rate, device=None):
         crop_size = to_2tuple(crop_size)
-        ori_rows, ori_cols, c = img.shape
+        ori_rows, ori_cols, _ = img.shape
         processed_pred = np.zeros((ori_rows, ori_cols, self.class_num))
 
         for s in self.multi_scales:

@@ -1,10 +1,7 @@
-import functools
 import time
 import torch
 import torch.nn as nn
-import config
 
-from utils.load_utils import load_state_dict
 from engine.logger import get_logger
 from ..net_utils import FeatureFusionModule as FFM
 from ..net_utils import FeatureRectifyModule as FRM
@@ -345,15 +342,9 @@ def load_dualpath_model(model, model_file, is_restore=False):
             state_dict[k.replace('downsample', 'hha_downsample')] = v
     t_ioend = time.time()
 
-    if is_restore:
-        new_state_dict = OrderedDict()
-        for k, v in state_dict.items():
-            name = 'module.' + k
-            new_state_dict[name] = v
-        state_dict = new_state_dict
-
     model.load_state_dict(state_dict, strict=False)
     del state_dict
+    
     t_end = time.time()
     logger.info(
         "Load model, Time usage:\n\tIO: {}, initialize parameters: {}".format(

@@ -435,7 +435,7 @@ class RGBXTransformer(nn.Module):
         return out
 
 
-def load_dualpath_model(model, model_file, is_restore=False):
+def load_dualpath_model(model, model_file):
     # load raw state_dict
     t_start = time.time()
     if isinstance(model_file, str):
@@ -460,16 +460,9 @@ def load_dualpath_model(model, model_file, is_restore=False):
 
     t_ioend = time.time()
 
-    if is_restore:
-        new_state_dict = OrderedDict()
-        for k, v in state_dict.items():
-            name = 'module.' + k
-            new_state_dict[name] = v
-        state_dict = new_state_dict
-
     model.load_state_dict(state_dict, strict=False)
-
     del state_dict
+    
     t_end = time.time()
     logger.info(
         "Load model, Time usage:\n\tIO: {}, initialize parameters: {}".format(

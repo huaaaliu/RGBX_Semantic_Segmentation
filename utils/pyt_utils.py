@@ -124,6 +124,34 @@ def all_reduce_tensor(tensor, op=dist.ReduceOp.SUM, world_size=1):
     return tensor
 
 
+def load_restore_model(model, model_file):
+    t_start = time.time()
+
+    if model_file is None:
+        return model
+
+    if isinstance(model_file, str):
+        state_dict = torch.load(model_file)
+        if 'model' in state_dict.keys():
+            state_dict = state_dict['model']
+        elif 'state_dict' in state_dict.keys():
+            state_dict = state_dict['state_dict']
+        elif 'module' in state_dict.keys():
+            state_dict = state_dict['module']
+    else:
+        state_dict = model_file
+    t_ioend = time.time()
+
+    model.load_state_dict(state_dict, strict=True)
+    
+    del state_dict
+    t_end = time.time()
+    logger.info(
+        "Load model, Time usage:\n\tIO: {}, initialize parameters: {}".format(
+            t_ioend - t_start, t_end - t_ioend))
+
+    return model
+
 def load_model(model, model_file, is_restore=False):
     t_start = time.time()
 
@@ -134,6 +162,10 @@ def load_model(model, model_file, is_restore=False):
         state_dict = torch.load(model_file)
         if 'model' in state_dict.keys():
             state_dict = state_dict['model']
+        elif 'state_dict' in state_dict.keys():
+            state_dict = state_dict['state_dict']
+        elif 'module' in state_dict.keys():
+            state_dict = state_dict['module']
     else:
         state_dict = model_file
     t_ioend = time.time()
@@ -146,78 +178,11 @@ def load_model(model, model_file, is_restore=False):
         state_dict = new_state_dict
 
 
-    model.load_state_dict(state_dict, strict=False)
+    model.load_state_dict(state_dict, strict=True)
     ckpt_keys = set(state_dict.keys())
     own_keys = set(model.state_dict().keys())
     missing_keys = own_keys - ckpt_keys
     unexpected_keys = ckpt_keys - own_keys
-
-    del state_dict
-    t_end = time.time()
-    logger.info(
-        "Load model, Time usage:\n\tIO: {}, initialize parameters: {}".format(
-            t_ioend - t_start, t_end - t_ioend))
-
-    return model
-
-def load_dualpath_model(model, model_file, is_restore=False):
-    # load raw state_dict
-    t_start = time.time()
-    if isinstance(model_file, str):
-        raw_state_dict = torch.load(model_file)
-
-
-        if 'model' in raw_state_dict.keys():
-            raw_state_dict = raw_state_dict['model']
-    else:
-        raw_state_dict = model_file
-    # copy to  hha backbone
-    state_dict = {}
-    for k, v in raw_state_dict.items():
-        state_dict[k.replace('.bn.', '.')] = v
-        if k.find('conv1') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('conv1', 'hha_conv1')] = v
-        if k.find('conv2') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('conv2', 'hha_conv2')] = v
-        if k.find('conv3') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('conv3', 'hha_conv3')] = v
-        if k.find('bn1') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('bn1', 'hha_bn1')] = v
-        if k.find('bn2') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('bn2', 'hha_bn2')] = v
-        if k.find('bn3') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('bn3', 'hha_bn3')] = v
-        if k.find('downsample') >= 0:
-            state_dict[k] = v
-            state_dict[k.replace('downsample', 'hha_downsample')] = v
-    t_ioend = time.time()
-
-    if is_restore:
-        new_state_dict = OrderedDict()
-        for k, v in state_dict.items():
-            name = 'module.' + k
-            new_state_dict[name] = v
-        state_dict = new_state_dict
-
-    model.load_state_dict(state_dict, strict=False)
-    ckpt_keys = set(state_dict.keys())
-    own_keys = set(model.state_dict().keys())
-    missing_keys = own_keys - ckpt_keys
-    unexpected_keys = ckpt_keys - own_keys
-
-    # if len(missing_keys) > 0:
-    #     logger.warning('Missing key(s) in state_dict: {}'.format(
-    #         ', '.join('{}'.format(k) for k in missing_keys)))
-    #
-    # if len(unexpected_keys) > 0:
-    #     logger.warning('Unexpected key(s) in state_dict: {}'.format(
-    #         ', '.join('{}'.format(k) for k in unexpected_keys)))
 
     del state_dict
     t_end = time.time()

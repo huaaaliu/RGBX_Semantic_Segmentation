@@ -10,10 +10,11 @@ import time
 import argparse
 
 import torch
+from torch._C import _propagate_and_assign_input_shapes
 import torch.distributed as dist
 
 from .logger import get_logger
-from utils.pyt_utils import load_model, parse_devices, extant_file, link_file, ensure_dir
+from utils.pyt_utils import load_restore_model, parse_devices, extant_file, link_file, ensure_dir
 
 logger = get_logger()
 
@@ -145,8 +146,7 @@ class Engine(object):
         else:"""
         tmp = torch.load(self.continue_state_object)
         t_ioend = time.time()
-
-        self.state.model = load_model(self.state.model, tmp['model'], True)
+        self.state.model = load_restore_model(self.state.model, tmp['model'])
         self.state.optimizer.load_state_dict(tmp['optimizer'])
         self.state.epoch = tmp['epoch'] + 1
         self.state.iteration = tmp['iteration']
