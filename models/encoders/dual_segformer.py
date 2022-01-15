@@ -445,7 +445,7 @@ def load_dualpath_model(model, model_file):
             raw_state_dict = raw_state_dict['model']
     else:
         raw_state_dict = model_file
-    # copy to  hha backbone
+    
     state_dict = {}
     for k, v in raw_state_dict.items():
         if k.find('patch_embed') >= 0:
