@@ -45,10 +45,10 @@ add_path(osp.join(C.root_dir))
 C.num_classes = 9
 C.background = 255
 # Statistik on train set
-C.image_mean = np.array([0.22156, 0.25873, 0.23003])
-C.image_std = np.array([0.16734, 0.16907, 0.16801])
-C.ther_mean = np.array([0.39541])
-C.ther_std = np.array([0.07578])
+C.image_mean = np.array([0.485, 0.456, 0.406])# np.array([0.22156, 0.25873, 0.23003])
+C.image_std = np.array([0.229, 0.224, 0.225]) # np.array([0.16734, 0.16907, 0.16801])
+C.ther_mean = np.array([0.485, 0.456, 0.406]) # np.array([0.39541])
+C.ther_std = np.array([0.229, 0.224, 0.225]) # np.array([0.07578])
 C.image_height = 480
 C.image_width = 640
 C.num_train_imgs = 784
@@ -66,7 +66,7 @@ C.lr = 6e-5
 C.lr_power = 0.9
 C.momentum = 0.9
 C.weight_decay = 0.01
-C.batch_size = 12
+C.batch_size = 8
 C.nepochs = 500
 C.niters_per_epoch = C.num_train_imgs // C.batch_size  + 1
 C.num_workers = 16

@@ -145,6 +145,7 @@ with Engine(custom_parser=parser) as engine:
                         + ' lr=%.4e' % lr \
                         + ' loss=%.4f total_loss=%.4f' % (loss, (sum_loss / (idx + 1)))
 
+            del loss
             pbar.set_description(print_str, refresh=False)
         
         if (engine.distributed and (engine.local_rank == 0)) or (not engine.distributed):
