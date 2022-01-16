@@ -109,14 +109,10 @@ class EncoderDecoder(nn.Module):
                 self.norm_layer, cfg.bn_eps, cfg.bn_momentum,
                 mode='fan_in', nonlinearity='relu')
 
-    def encode_decode(self, rgb, modal_x, phase_checkpoint, resize=False):
+    def encode_decode(self, rgb, modal_x):
         """Encode images with backbone and decode into a semantic segmentation
         map of the same size as input."""
         orisize = rgb.shape
-        if resize:
-            rgb = F.interpolate(rgb, size=(rgb.shape[2]//2,rgb.shape[3]//2), mode='bilinear', align_corners=False)
-            #gt = F.interpolate(gt, size=(gt.shape[2]//2,gt.shape[3]//2), mode='bilinear', align_corners=False)
-            modal_x = F.interpolate(modal_x, size=(modal_x.shape[2]//2, modal_x.shape[3]//2), mode='bilinear', align_corners=False)
         x = self.backbone(rgb, modal_x)
         out = self.decode_head.forward(x)
         out = F.interpolate(out, size=orisize[2:], mode='bilinear', align_corners=False)
@@ -126,11 +122,11 @@ class EncoderDecoder(nn.Module):
             return out, aux_fm
         return out
 
-    def forward(self, rgb, modal_x, label=None, phase_checkpoint=False):
+    def forward(self, rgb, modal_x, label=None):
         if self.aux_head:
-            out, aux_fm = self.encode_decode(rgb, modal_x, phase_checkpoint)
+            out, aux_fm = self.encode_decode(rgb, modal_x)
         else:
-            out = self.encode_decode(rgb, modal_x, phase_checkpoint)
+            out = self.encode_decode(rgb, modal_x)
         if label is not None:
             loss = self.criterion(out, label.long())
             if self.aux_head:
