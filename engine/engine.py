@@ -1,16 +1,9 @@
-#!/usr/bin/env python3
-# encoding: utf-8
-# @Time    : 2018/8/2 下午3:23
-# @Author  : yuchangqian
-# @Contact : changqian_yu@163.com
-# @File    : engine.py
 import os
 import os.path as osp
 import time
 import argparse
 
 import torch
-from torch._C import _propagate_and_assign_input_shapes
 import torch.distributed as dist
 
 from .logger import get_logger
