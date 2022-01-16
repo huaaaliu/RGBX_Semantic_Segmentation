@@ -45,7 +45,7 @@ add_path(osp.join(C.root_dir))
 C.num_classes = 9
 C.background = 255
 # Statistik on train set
-C.image_mean = np.array([0.485, 0.456, 0.406])# np.array([0.22156, 0.25873, 0.23003])
+C.image_mean = np.array([0.485, 0.456, 0.406]) # np.array([0.22156, 0.25873, 0.23003])
 C.image_std = np.array([0.229, 0.224, 0.225]) # np.array([0.16734, 0.16907, 0.16801])
 C.ther_mean = np.array([0.485, 0.456, 0.406]) # np.array([0.39541])
 C.ther_std = np.array([0.229, 0.224, 0.225]) # np.array([0.07578])
@@ -55,18 +55,18 @@ C.num_train_imgs = 784
 C.num_eval_imgs = 393 #205 day #188 night
 
 """ Settings for network, this would be different for each kind of model"""
-C.backbone = 'mit_b2' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
+C.backbone = 'mit_b4' # Remember change the path below.
+C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b4.pth'
 C.decoder = 'MLPDecoder'
 C.decoder_embed_dim = 512 # valid for MLP decoder
-C.optimizer = 'AdamW' #'SGDM'# 
+C.optimizer = 'AdamW' #'SGDM'#
 
 """Train Config"""
 C.lr = 6e-5
 C.lr_power = 0.9
 C.momentum = 0.9
 C.weight_decay = 0.01
-C.batch_size = 8
+C.batch_size = 4
 C.nepochs = 500
 C.niters_per_epoch = C.num_train_imgs // C.batch_size  + 1
 C.num_workers = 16
