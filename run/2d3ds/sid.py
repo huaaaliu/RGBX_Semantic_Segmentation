@@ -1,7 +1,6 @@
-# encoding: utf-8
 import numpy as np
 import torch
-from datasets.BaseDataset import BaseDataset
+from engine.BaseDataset import BaseDataset
 import os
 import cv2
 
@@ -27,16 +26,15 @@ class SID(BaseDataset):
         img = cv2.imread(img_path)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         
-        depth_path = os.path.join(self.root, area, 'depth', name + '.png')
-        depth = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
-        depth = cv2.merge([depth, depth, depth]) #np.expand_dims(depth, axis=-1)
+        hha_path = os.path.join(self.root, area, 'hha', name + '.png')
+        hha = cv2.imread(hha_path, cv2.COLOR_BGR2RGB)
         
         gt_path = os.path.join(self.root, area, 'label', name + '.png')
         gt = cv2.imread(gt_path, cv2.IMREAD_UNCHANGED)
         gt -= 1       # 0->255
 
         if self.preprocess is not None:
-            img, gt, extra_dict = self.preprocess(img, gt, depth)
+            img, gt, extra_dict = self.preprocess(img, gt, hha)
 
         if self._split_name == 'train':
             img = torch.from_numpy(np.ascontiguousarray(img)).float()

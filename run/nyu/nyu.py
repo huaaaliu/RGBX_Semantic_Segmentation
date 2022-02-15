@@ -1,4 +1,3 @@
-# encoding: utf-8
 import numpy as np
 import torch
 from engine.BaseDataset import BaseDataset

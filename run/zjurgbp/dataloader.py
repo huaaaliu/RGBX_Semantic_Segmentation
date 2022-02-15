@@ -4,7 +4,7 @@ import numpy as np
 from torch.utils import data
 import random
 from config import config
-from utils.img_utils import generate_random_crop_pos, random_crop_pad_to_shape, normalize
+from utils.rgbx_transforms import generate_random_crop_pos, random_crop_pad_to_shape, normalize
 
 def random_mirror(img, gt, polar):
     if random.random() >= 0.5:

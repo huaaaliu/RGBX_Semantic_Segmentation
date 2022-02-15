@@ -2,78 +2,67 @@ import cv2
 import torch
 import numpy as np
 from torch.utils import data
+import torch.nn.functional as F
 import random
 from config import config
-from utils.img_utils import generate_random_crop_pos, random_crop_pad_to_shape
+import utils.rgbx_transforms as rgbx_transforms
 
-def random_mirror(img, gt, depth):
+def random_mirror(img, gt, hha):
     if random.random() >= 0.5:
         img = cv2.flip(img, 1)
         gt = cv2.flip(gt, 1)
-        depth = cv2.flip(depth, 1)
+        hha = cv2.flip(hha, 1)
 
-    return img, gt, depth
+    return img, gt, hha
 
-def normalize(img, mean, std):
-    # pytorch pretrained model need the input range: 0-1
-    img = img.astype(np.float32) / 255.0
-    img = img - mean
-    img = img / std
-
-    return img
-
-
-def random_scale(img, gt, depth, scales):
-    scale = random.choice(scales)
-    # scale = random.uniform(scales[0], scales[-1])
-    sh = int(img.shape[0] * scale)
-    sw = int(img.shape[1] * scale)
-    img = cv2.resize(img, (sw, sh), interpolation=cv2.INTER_LINEAR)
-    gt = cv2.resize(gt, (sw, sh), interpolation=cv2.INTER_NEAREST)
-    depth = cv2.resize(depth, (sw, sh), interpolation=cv2.INTER_LINEAR)
-
-    return img, gt, depth, scale
 
 class TrainPre(object):
-    def __init__(self, img_mean, img_std):
-        self.img_mean = img_mean
-        self.img_std = img_std
+    def __init__(self, cfg):
+        self.image_height = cfg.image_height 
+        self.image_width = cfg.image_width
+        self.img_mean = cfg.image_mean
+        self.img_std = cfg.image_std
 
-    def __call__(self, img, gt, depth):
-        img, gt, depth = random_mirror(img, gt, depth)
+    def __call__(self, img, gt, hha):
+        img = cv2.resize(img, (self.image_width, self.image_height), interpolation=cv2.INTER_LINEAR)
+        hha = cv2.resize(hha, (self.image_width, self.image_height), interpolation=cv2.INTER_LINEAR)
+        gt = cv2.resize(gt, (self.image_width, self.image_height), interpolation=cv2.INTER_NEAREST)
+        img, gt, hha = random_mirror(img, gt, hha)
         if config.train_scale_array is not None:
-            img, gt, depth, scale = random_scale(img, gt, depth, config.train_scale_array)
+            img, gt, hha, _ = rgbx_transforms.random_scale_rgbx(img, gt, hha, config.train_scale_array)
 
-        img = normalize(img, self.img_mean, self.img_std)
-        depth = normalize(depth, self.img_mean, self.img_std)
-
+        img = rgbx_transforms.normalize(img, self.img_mean, self.img_std)
+        hha = rgbx_transforms.normalize(hha, self.img_mean, self.img_std)
         crop_size = (config.image_height, config.image_width)
-        crop_pos = generate_random_crop_pos(img.shape[:2], crop_size)
-
-        p_img, _ = random_crop_pad_to_shape(img, crop_pos, crop_size, 0)
-        p_gt, _ = random_crop_pad_to_shape(gt, crop_pos, crop_size, 255)
-        p_depth, _ = random_crop_pad_to_shape(depth, crop_pos, crop_size, 0)
+        crop_pos = rgbx_transforms.generate_random_crop_pos(img.shape[:2], crop_size)
+        p_img, _ = rgbx_transforms.random_crop_pad_to_shape(img, crop_pos, crop_size, 0)
+        p_gt, _ = rgbx_transforms.random_crop_pad_to_shape(gt, crop_pos, crop_size, 255)
+        p_hha, _ = rgbx_transforms.random_crop_pad_to_shape(hha, crop_pos, crop_size, 0)
 
         p_img = p_img.transpose(2, 0, 1)
-        p_depth = p_depth.transpose(2, 0, 1)
+        p_hha = p_hha.transpose(2, 0, 1)
 
-        extra_dict = {'depth_img': p_depth}
+        extra_dict = {'hha_img': p_hha}
         
         return p_img, p_gt, extra_dict
 
 class ValPre(object):
-    def __call__(self, img, gt, depth):
-        extra_dict = {'depth_img': depth}
+    def __call__(self, img, gt, hha):
+        img = cv2.resize(img, (config.image_width, config.image_height), interpolation=cv2.INTER_LINEAR)
+        hha = cv2.resize(hha, (config.image_width, config.image_height), interpolation=cv2.INTER_LINEAR)
+        gt = cv2.resize(gt, (config.image_width, config.image_height), interpolation=cv2.INTER_NEAREST)
+
+        extra_dict = {'hha_img': hha}
         return img, gt, extra_dict
 
 def get_train_loader(engine, dataset):
     data_setting = {'root': config.dataset_path,
                     'img_root': config.img_root_folder,
                     'gt_root': config.gt_root_folder,
-                    'depth_root':config.depth_root_folder,
+                    'hha_root':config.hha_root_folder,
                     'train_source': config.train_source,
                     'eval_source': config.eval_source}
-    train_preprocess = TrainPre(config.image_mean, config.image_std)
+    train_preprocess = TrainPre(config)
 
     train_dataset = dataset(data_setting, "train", train_preprocess,
                             config.batch_size * config.niters_per_epoch)

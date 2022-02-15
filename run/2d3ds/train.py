@@ -14,7 +14,7 @@ from torch.nn.parallel import DistributedDataParallel
 from config import config
 from dataloader import get_train_loader
 from models.builder import EncoderDecoder as segmodel
-from run.sid.sid import SID
+from sid import SID
 from utils.init_func import init_weight, group_weight
 from engine.lr_policy import WarmUpPolyLR
 from engine.engine import Engine
@@ -108,15 +108,15 @@ with Engine(custom_parser=parser) as engine:
 
             minibatch = dataloader.next()
             imgs = minibatch['data']
-            depth = minibatch['depth_img']
+            hha = minibatch['hha_img']
             gts = minibatch['label']
 
             imgs = imgs.cuda(non_blocking=True)
             gts = gts.cuda(non_blocking=True)
-            depth = depth.cuda(non_blocking=True)
+            hha = hha.cuda(non_blocking=True)
 
             aux_rate = 0.2
-            loss = model(imgs, depth, gts)
+            loss = model(imgs, hha, gts)
 
             # reduce the whole loss over multi-gpu
             if engine.distributed:

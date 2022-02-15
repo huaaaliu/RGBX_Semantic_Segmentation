@@ -152,6 +152,7 @@ def load_restore_model(model, model_file):
 
     return model
 
+
 def load_model(model, model_file, is_restore=False):
     t_start = time.time()
 
@@ -176,7 +177,6 @@ def load_model(model, model_file, is_restore=False):
             name = 'module.' + k
             new_state_dict[name] = v
         state_dict = new_state_dict
-
 
     model.load_state_dict(state_dict, strict=True)
     ckpt_keys = set(state_dict.keys())

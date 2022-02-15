@@ -106,8 +106,18 @@ def random_scale(img, gt, scales):
     sw = int(img.shape[1] * scale)
     img = cv2.resize(img, (sw, sh), interpolation=cv2.INTER_LINEAR)
     gt = cv2.resize(gt, (sw, sh), interpolation=cv2.INTER_NEAREST)
-
+    
     return img, gt, scale
+
+def random_scale_rgbx(img, gt, modal_x, scales):
+    scale = random.choice(scales)
+    sh = int(img.shape[0] * scale)
+    sw = int(img.shape[1] * scale)
+    img = cv2.resize(img, (sw, sh), interpolation=cv2.INTER_LINEAR)
+    gt = cv2.resize(gt, (sw, sh), interpolation=cv2.INTER_NEAREST)
+    modal_x = cv2.resize(modal_x, (sw, sh), interpolation=cv2.INTER_LINEAR)
+
+    return img, gt, modal_x, scale
 
 def random_scale_with_length(img, gt, length):
     size = random.choice(length)
