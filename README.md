@@ -13,7 +13,7 @@
 README is on the way...
 
 ## Publication
-If you use our code, please consider referencing the following paper:
+If you use our code, please consider referencing the following paper [PDF](https://arxiv.org/pdf/2203.04838.pdf):
 ```
 @article{liu2022cmx,
   title={CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers},
