@@ -10,10 +10,12 @@
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-cityscapes-val)](https://paperswithcode.com/sota/semantic-segmentation-on-cityscapes-val?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
+More details can be found in our paper [[**PDF**](https://arxiv.org/pdf/2203.04838.pdf)].
+
 README is on the way...
 
 ## Publication
-If you use our code, please consider referencing the following paper [PDF](https://arxiv.org/pdf/2203.04838.pdf):
+If you use our code, please consider referencing the following paper:
 ```
 @article{liu2022cmx,
   title={CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers},
