@@ -8,3 +8,13 @@
 
 README is on the way...
 
+## Publication
+If you use our code, please consider referencing the following paper:
+```
+@article{liu2022cmx,
+  title={CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers},
+  author={Liu, Huayao and Zhang, Jiaming and Yang, Kailun and Hu, Xinxin and Stiefelhagen, Rainer},
+  journal={arXiv preprint arXiv:2203.04838},
+  year={2022}
+}
+```
