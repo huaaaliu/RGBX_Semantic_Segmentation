@@ -6,6 +6,8 @@
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-zju-rgb-p)](https://paperswithcode.com/sota/semantic-segmentation-on-zju-rgb-p?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-eventscape)](https://paperswithcode.com/sota/semantic-segmentation-on-eventscape?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
+
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-cityscapes-val)](https://paperswithcode.com/sota/semantic-segmentation-on-cityscapes-val?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
 README is on the way...
