@@ -1,3 +1,4 @@
+# encoding: utf-8
 import numpy as np
 import torch
 from engine.BaseDataset import BaseDataset
@@ -100,4 +101,4 @@ class NYUv2(BaseDataset):
         new_name = (name.split('.')[0]).split('_')[:-1]
         new_name = '_'.join(new_name) + '.png'
 
-        return label, new_name
+        retur

@@ -22,8 +22,8 @@ class ChannelWeights(nn.Module):
         B, _, H, W = x1.shape
         x = torch.cat((x1, x2), dim=1)
         avg = self.avg_pool(x).view(B, self.dim * 2)
-        glo = self.max_pool(x).view(B, self.dim * 2)
-        y = torch.cat((avg, glo), dim=1) # B 4C
+        max = self.max_pool(x).view(B, self.dim * 2)
+        y = torch.cat((avg, max), dim=1) # B 4C
         y = self.mlp(y).view(B, self.dim * 2, 1)
         channel_weights = y.reshape(B, 2, self.dim, 1, 1).permute(1, 0, 2, 3, 4) # 2 B C 1 1
         return channel_weights

@@ -78,8 +78,7 @@ class Evaluator(object):
                       model_slice]
         else:
             if os.path.exists(model_path):
-                models = [os.path.join(model_path,
-                                       'epoch-%s.pth' % model_indice), ]
+                models = [os.path.join(model_path, 'epoch-%s.pth' % model_indice), ]
             else:
                 models = [None]
 
@@ -331,7 +330,7 @@ class Evaluator(object):
         new_rows, new_cols, c = img.shape
         long_size = new_cols if new_cols > new_rows else new_rows
 
-        if new_cols <= crop_size[0] or new_rows <= crop_size[1]:
+        if new_cols <= crop_size[1] or new_rows <= crop_size[0]:
             input_data, input_X, margin = self.process_image_rgbX(img, X, crop_size)
             score = self.val_func_process_rgbX(input_data, input_X, device) 
             score = score[:, margin[0]:(score.shape[1] - margin[1]), margin[2]:(score.shape[2] - margin[3])]

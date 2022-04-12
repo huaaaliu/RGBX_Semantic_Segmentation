@@ -7,7 +7,7 @@ import torch
 import torch.distributed as dist
 
 from .logger import get_logger
-from utils.pyt_utils import load_restore_model, parse_devices, extant_file, link_file, ensure_dir
+from utils.pyt_utils import load_model, parse_devices, extant_file, link_file, ensure_dir
 
 logger = get_logger()
 
@@ -129,17 +129,17 @@ class Engine(object):
 
     def restore_checkpoint(self):
         t_start = time.time()
-        """if self.distributed:
+        if self.distributed:
             # load the model on cpu first to avoid GPU RAM surge
             # when loading a model checkpoint
             # tmp = torch.load(self.continue_state_object,
             #                  map_location=lambda storage, loc: storage.cuda(
             #                      self.local_rank))
             tmp = torch.load(self.continue_state_object, map_location=torch.device('cpu'))
-        else:"""
-        tmp = torch.load(self.continue_state_object)
+        else:
+            tmp = torch.load(self.continue_state_object)
         t_ioend = time.time()
-        self.state.model = load_restore_model(self.state.model, tmp['model'])
+        self.state.model = load_model(self.state.model, tmp['model'], is_restore=True)
         self.state.optimizer.load_state_dict(tmp['optimizer'])
         self.state.epoch = tmp['epoch'] + 1
         self.state.iteration = tmp['iteration']

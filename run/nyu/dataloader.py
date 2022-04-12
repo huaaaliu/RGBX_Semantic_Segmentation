@@ -16,7 +16,7 @@ def random_mirror(img, gt, hha):
 
 def random_scale(img, gt, hha, scales):
     scale = random.choice(scales)
-    # scale = random.uniform(scales[0], scales[-1])
+    
     sh = int(img.shape[0] * scale)
     sw = int(img.shape[1] * scale)
     img = cv2.resize(img, (sw, sh), interpolation=cv2.INTER_LINEAR)
@@ -26,11 +26,9 @@ def random_scale(img, gt, hha, scales):
     return img, gt, hha, scale
 
 class TrainPre(object):
-    def __init__(self, img_mean, img_std, hha_mean, hha_std):
+    def __init__(self, img_mean, img_std):
         self.img_mean = img_mean
         self.img_std = img_std
-        self.hha_mean = hha_mean
-        self.hha_std = hha_std
 
     def __call__(self, img, gt, hha):
         img, gt, hha = random_mirror(img, gt, hha)
@@ -38,7 +36,7 @@ class TrainPre(object):
             img, gt, hha, scale = random_scale(img, gt, hha, config.train_scale_array)
 
         img = normalize(img, self.img_mean, self.img_std)
-        hha = normalize(hha, self.hha_mean, self.hha_std)
+        hha = normalize(hha, self.img_mean, self.img_std)
 
         crop_size = (config.image_height, config.image_width)
         crop_pos = generate_random_crop_pos(img.shape[:2], crop_size)
@@ -65,7 +63,7 @@ def get_train_loader(engine, dataset):
                     'hha_root':config.hha_root_folder,
                     'train_source': config.train_source,
                     'eval_source': config.eval_source}
-    train_preprocess = TrainPre(config.image_mean, config.image_std, config.hha_mean, config.hha_std)
+    train_preprocess = TrainPre(config.image_mean, config.image_std)
 
     train_dataset = dataset(data_setting, "train", train_preprocess,
                             config.batch_size * config.niters_per_epoch)

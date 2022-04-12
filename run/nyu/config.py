@@ -45,18 +45,16 @@ add_path(osp.join(C.root_dir))
 C.num_classes = 40
 C.background = 255
 # Statistik on train set
-C.image_mean = np.array([0.485, 0.456, 0.406]) # np.array([0.48474, 0.41623, 0.39792])
-C.image_std = np.array([0.229, 0.224, 0.225])  # np.array([0.26400, 0.27250, 0.28229])
-C.hha_mean = np.array([0.485, 0.456, 0.406]) # np.array([0.52234, 0.44826, 0.43878])
-C.hha_std = np.array([0.229, 0.224, 0.225]) # np.array([0.17047, 0.24475, 0.13624])
+C.image_mean = np.array([0.485, 0.456, 0.406])
+C.image_std = np.array([0.229, 0.224, 0.225])
 C.image_height = 480
 C.image_width = 640
 C.num_train_imgs = 795
 C.num_eval_imgs = 654
 
 """ Settings for network, this would be different for each kind of model"""
-C.backbone = 'mit_b5' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b5.pth'
+C.backbone = 'mit_b2' # Remember change the path below.
+C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
 C.decoder = 'MLPDecoder' #'base' #'UPernet'# 
 C.decoder_embed_dim = 512 # valid for MLP decoder
 C.optimizer = 'AdamW' #'SGDM'# 
@@ -67,7 +65,7 @@ C.lr_power = 0.9
 C.momentum = 0.9
 C.weight_decay = 0.01 # 5e-4 #
 C.batch_size = 8
-C.nepochs = 400
+C.nepochs = 500
 C.niters_per_epoch = C.num_train_imgs // C.batch_size  + 1
 C.num_workers = 16
 C.train_scale_array = [0.5, 0.75, 1, 1.25, 1.5, 1.75]

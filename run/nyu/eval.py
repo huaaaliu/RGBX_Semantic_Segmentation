@@ -102,8 +102,8 @@ if __name__ == "__main__":
 
     with torch.no_grad():
         segmentor = SegEvaluator(dataset, config.num_classes, config.image_mean,
-                                 config.image_std, config.hha_mean,
-                                 config.hha_std, network,
+                                 config.image_std, config.image_mean,
+                                 config.image_std, network,
                                  config.eval_scale_array, config.eval_flip,
                                  all_dev, args.verbose, args.save_path,
                                  args.show_image)
