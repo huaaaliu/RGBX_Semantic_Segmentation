@@ -12,9 +12,9 @@ import torch.backends.cudnn as cudnn
 from torch.nn.parallel import DistributedDataParallel
 
 from config import config
-from dataloader import get_train_loader
+from dataloader.dataloader import get_train_loader
 from models.builder import EncoderDecoder as segmodel
-from dataloader import RGBXDataset
+from dataloader.RGBXDataset import RGBXDataset
 from utils.init_func import init_weight, group_weight
 from utils.lr_policy import WarmUpPolyLR
 from engine.engine import Engine
@@ -81,7 +81,8 @@ with Engine(custom_parser=parser) as engine:
         logger.info('.............distributed training.............')
         if torch.cuda.is_available():
             model.cuda()
-            model = DistributedDataParallel(model, device_ids=[engine.local_rank], output_device=engine.local_rank, find_unused_parameters=True)
+            model = DistributedDataParallel(model, device_ids=[engine.local_rank], 
+                                            output_device=engine.local_rank, find_unused_parameters=False)
     else:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
@@ -95,7 +96,7 @@ with Engine(custom_parser=parser) as engine:
     model.train()
     logger.info('begin trainning:')
     
-    for epoch in range(engine.state.epoch, config.nepochs):
+    for epoch in range(engine.state.epoch, config.nepochs+1):
         if engine.distributed:
             train_sampler.set_epoch(epoch)
         bar_format = '{desc}[{elapsed}<{remaining},{rate_fmt}]'
@@ -153,12 +154,12 @@ with Engine(custom_parser=parser) as engine:
         if (engine.distributed and (engine.local_rank == 0)) or (not engine.distributed):
             tb.add_scalar('train_loss', sum_loss / len(pbar), epoch)
 
-        if (epoch >= config.save_start_epoch) and (epoch % config.snapshot_iter == 0) or (epoch == config.nepochs - 1):
+        if (epoch >= config.checkpoint_start_epoch) and (epoch % config.snapshot_iter == 0) or (epoch == config.nepochs - 1):
             if engine.distributed and (engine.local_rank == 0):
-                engine.save_and_link_checkpoint(config.snapshot_dir,
+                engine.checkpoint_and_link_checkpoint(config.snapshot_dir,
                                                 config.log_dir,
                                                 config.log_dir_link)
             elif not engine.distributed:
-                engine.save_and_link_checkpoint(config.snapshot_dir,
+                engine.checkpoint_and_link_checkpoint(config.snapshot_dir,
                                                 config.log_dir,
                                                 config.log_dir_link)

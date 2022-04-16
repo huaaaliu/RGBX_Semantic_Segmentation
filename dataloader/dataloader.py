@@ -66,16 +66,14 @@ def get_train_loader(engine, dataset):
                     'eval_source': config.eval_source}
     train_preprocess = TrainPre(config.norm_mean, config.norm_std)
 
-    train_dataset = dataset(data_setting, "train", train_preprocess,
-                            config.batch_size * config.niters_per_epoch)
+    train_dataset = dataset(data_setting, "train", train_preprocess, config.batch_size * config.niters_per_epoch)
 
     train_sampler = None
     is_shuffle = True
     batch_size = config.batch_size
 
     if engine.distributed:
-        train_sampler = torch.utils.data.distributed.DistributedSampler(
-            train_dataset)
+        train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
         batch_size = config.batch_size // engine.world_size
         is_shuffle = False
 

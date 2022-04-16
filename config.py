@@ -33,7 +33,7 @@ C.rgb_root_folder = osp.join(C.dataset_path, 'RGB')
 C.rgb_format = '.jpg'
 C.gt_root_folder = osp.join(C.dataset_path, 'Label')
 C.gt_format = '.png'
-C.x_root_folder = osp.join(C.dataset_path, 'HHA') # osp.join(C.dataset_path, 'Depth')
+C.x_root_folder = osp.join(C.dataset_path, 'HHA')
 C.x_format = '.jpg'
 C.x_is_single_channel = False # True for raw depth, thermal and polarzation input
 C.train_source = osp.join(C.dataset_path, "train.txt")
@@ -52,7 +52,7 @@ C.background = 255
 C.image_height = 480
 C.image_width = 640
 C.norm_mean = np.array([0.485, 0.456, 0.406])
-C.morm_std = np.array([0.229, 0.224, 0.225])
+C.norm_std = np.array([0.229, 0.224, 0.225])
 
 """Path Config"""
 def add_path(path):
@@ -61,8 +61,8 @@ def add_path(path):
 add_path(osp.join(C.root_dir))
 
 """ Settings for network, this would be different for each kind of model"""
-C.backbone = 'mit_b0' # Remember change the path below.
-C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b0.pth'
+C.backbone = 'mit_b2' # Remember change the path below.
+C.pretrained_model = C.root_dir + '/pretrained/segformer/mit_b2.pth'
 C.decoder = 'MLPDecoder'
 C.decoder_embed_dim = 512
 C.optimizer = 'AdamW'
@@ -72,7 +72,7 @@ C.lr = 6e-5
 C.lr_power = 0.9
 C.momentum = 0.9
 C.weight_decay = 0.01
-C.batch_size = 4
+C.batch_size = 8
 C.nepochs = 500
 C.niters_per_epoch = C.num_train_imgs // C.batch_size  + 1
 C.num_workers = 16

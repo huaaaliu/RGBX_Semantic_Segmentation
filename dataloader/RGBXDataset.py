@@ -1,4 +1,5 @@
 import os
+from pickletools import uint8
 import cv2
 import torch
 import numpy as np
@@ -41,12 +42,14 @@ class RGBXDataset(data.Dataset):
         # Check the following settings if necessary
         rgb = self._open_image(rgb_path, cv2.COLOR_BGR2RGB)
 
-        gt = self._open_image(gt_path, cv2.IMREAD_UNCHANGED)
+        gt = self._open_image(gt_path, cv2.IMREAD_GRAYSCALE, dtype=np.uint8)
         gt = gt - 1 # label 0 is invalid, this operation transfers label 0 to label 255
 
-        x =  self._open_image(x_path, cv2.IMREAD_UNCHANGED)
         if self._x_single_channel:
+            x =  self._open_image(x_path, cv2.IMREAD_GRAYSCALE)
             x = cv2.merge([x, x, x])
+        else:
+            x =  self._open_image(x_path, cv2.IMREAD_UNCHANGED)
         
         if self.preprocess is not None:
             rgb, gt, x = self.preprocess(rgb, gt, x)
@@ -56,7 +59,7 @@ class RGBXDataset(data.Dataset):
             gt = torch.from_numpy(np.ascontiguousarray(gt)).long()
             x = torch.from_numpy(np.ascontiguousarray(x)).float()
 
-        output_dict = dict(rgb=rgb, label=gt, modal_x=x, fn=str(item_name), n=len(self._file_names))
+        output_dict = dict(data=rgb, label=gt, modal_x=x, fn=str(item_name), n=len(self._file_names))
 
         return output_dict
 
@@ -96,12 +99,6 @@ class RGBXDataset(data.Dataset):
         img = np.array(cv2.imread(filepath, mode), dtype=dtype)
         return img
 
-    @classmethod
-    def get_class_names(*args):
-        return ['wall','floor','cabinet','bed','chair','sofa','table','door','window','bookshelf','picture','counter','blinds',
-                'desk','shelves','curtain','dresser','pillow','mirror','floor mat','clothes','ceiling','books','refridgerator',
-                'television','paper','towel','shower curtain','box','whiteboard','person','night stand','toilet',
-                'sink','lamp','bathtub','bag','otherstructure','otherfurniture','otherprop']
 
     @classmethod
     def get_class_colors(*args):
