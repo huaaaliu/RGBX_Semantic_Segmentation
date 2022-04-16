@@ -11,7 +11,7 @@ import torch.multiprocessing as mp
 
 from engine.logger import get_logger
 from utils.pyt_utils import load_model, link_file, ensure_dir
-from utils.rgbx_transforms import pad_image_to_shape, normalize
+from utils.transforms import pad_image_to_shape, normalize
 
 logger = get_logger()
 

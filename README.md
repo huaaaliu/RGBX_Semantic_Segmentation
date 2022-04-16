@@ -19,7 +19,7 @@
 The official implementation of CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers:
 More details can be found in our paper [[**PDF**](https://arxiv.org/pdf/2203.04838.pdf)].
 
-README is on the way...
+README is still not complete...
 
 ## Usage
 ### Installation
@@ -69,6 +69,7 @@ Orgnize the dataset folder in the following structure:
 ```shell
 <name1>
 <name2>
+...
 ```
 
 For RGB-Depth semantic segmentation, the generation of HHA maps from Depth maps can refer to [https://github.com/charlesCXK/Depth2HHA-python](https://github.com/charlesCXK/Depth2HHA-python).
@@ -116,11 +117,11 @@ We offer the pre-trained weights on different RGBX datasets:
 |:---:|:---:|:---:|:---:|
 | SegFormer | MiT-B2 | 58.2% |  |
 | SegFormer | MiT-B4 | 59.7% |  |
-
+ (On the way...)
 
 
 ## Publication
-If you use our code, please consider referencing the following paper:
+If you find this repo useful, please consider referencing the following paper:
 ```
 @article{liu2022cmx,
   title={CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers},
@@ -129,3 +130,8 @@ If you use our code, please consider referencing the following paper:
   year={2022}
 }
 ```
+
+## Acknowledgement
+
+Our code is heavily based on [TorchSeg](https://github.com/ycszen/TorchSeg) and [SA-Gate](https://github.com/charlesCXK/RGBD_Semantic_Segmentation_PyTorch), thanks for their excellent work!
+
