@@ -58,12 +58,14 @@ def get_train_loader(engine, dataset):
                     'rgb_format': config.rgb_format,
                     'gt_root': config.gt_root_folder,
                     'gt_format': config.gt_format,
+                    'transform_gt': config.gt_transform,
                     'x_root':config.x_root_folder,
                     'x_format': config.x_format,
                     'x_single_channel': config.x_is_single_channel,
                     'class_names': config.class_names,
                     'train_source': config.train_source,
-                    'eval_source': config.eval_source}
+                    'eval_source': config.eval_source,
+                    'class_names': config.class_names}
     train_preprocess = TrainPre(config.norm_mean, config.norm_std)
 
     train_dataset = dataset(data_setting, "train", train_preprocess, config.batch_size * config.niters_per_epoch)

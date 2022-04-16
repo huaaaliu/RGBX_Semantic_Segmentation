@@ -15,12 +15,13 @@ class RGBXDataset(data.Dataset):
         self._rgb_format = setting['rgb_format']
         self._gt_path = setting['gt_root']
         self._gt_format = setting['gt_format']
+        self._transform_gt = setting['transform_gt']
         self._x_path = setting['x_root']
         self._x_format = setting['x_format']
         self._x_single_channel = setting['x_single_channel']
         self._train_source = setting['train_source']
         self._eval_source = setting['eval_source']
-        self._class_names = setting['class_names']
+        self.class_names = setting['class_names']
         self._file_names = self._get_file_names(split_name)
         self._file_length = file_length
         self.preprocess = preprocess
@@ -43,7 +44,8 @@ class RGBXDataset(data.Dataset):
         rgb = self._open_image(rgb_path, cv2.COLOR_BGR2RGB)
 
         gt = self._open_image(gt_path, cv2.IMREAD_GRAYSCALE, dtype=np.uint8)
-        gt = gt - 1 # label 0 is invalid, this operation transfers label 0 to label 255
+        if self._transform_gt:
+            gt = self._gt_transform(gt) 
 
         if self._x_single_channel:
             x =  self._open_image(x_path, cv2.IMREAD_GRAYSCALE)
@@ -99,6 +101,9 @@ class RGBXDataset(data.Dataset):
         img = np.array(cv2.imread(filepath, mode), dtype=dtype)
         return img
 
+    @staticmethod
+    def _gt_transform(gt):
+        return gt - 1 
 
     @classmethod
     def get_class_colors(*args):

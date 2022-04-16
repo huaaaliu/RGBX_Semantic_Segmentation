@@ -5,4 +5,4 @@ opencv-python>=4.5.0
 timm>=0.4.10
 scipy>=1.7.0
 tqdm>=4.40.0
-tensorboardX>=2.0
+tensorboardX>=2.2

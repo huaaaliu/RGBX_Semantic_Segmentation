@@ -24,6 +24,9 @@ C.rgb_root_folder = osp.join(C.dataset_path, 'RGB')
 C.rgb_format = '.jpg'
 C.gt_root_folder = osp.join(C.dataset_path, 'Label')
 C.gt_format = '.png'
+C.gt_transform = True 
+# True when label 0 is invalid, you can also modify the function _transform_gt in dataloader.RGBXDataset
+# For most dataset valid
 C.x_root_folder = osp.join(C.dataset_path, 'HHA')
 C.x_format = '.jpg'
 C.x_is_single_channel = False # True for raw depth, thermal and polarzation input
@@ -76,7 +79,7 @@ C.eval_flip = False # True #
 C.eval_crop_size = [480, 640] # [height weight]
 
 """Store Config"""
-C.checkpoint_start_epoch = 100
+C.checkpoint_start_epoch = 150
 C.checkpoint_step = 50
 
 """Path Config"""
@@ -87,7 +90,7 @@ add_path(osp.join(C.root_dir))
 
 C.log_dir = osp.abspath('log_' + C.dataset_name + '_' + C.backbone)
 C.tb_dir = osp.abspath(osp.join(C.log_dir, "tb"))
-C.log_dir_link = osp.join(C.abs_dir, 'log')
+C.log_dir_link = C.log_dir
 C.checkpoint_dir = osp.abspath(osp.join(C.log_dir, "checkpoint"))
 
 exp_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())

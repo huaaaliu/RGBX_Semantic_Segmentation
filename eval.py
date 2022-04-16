@@ -14,7 +14,7 @@ from engine.logger import get_logger
 from utils.metric import hist_info, compute_score
 from dataloader.RGBXDataset import RGBXDataset
 from models.builder import EncoderDecoder as segmodel
-from dataloader import ValPre
+from dataloader.dataloader import ValPre
 
 logger = get_logger()
 
@@ -26,8 +26,7 @@ class SegEvaluator(Evaluator):
         name = data['fn']
         pred = self.sliding_eval_rgbX(img, modal_x, config.eval_crop_size, config.eval_stride_rate, device)
         hist_tmp, labeled_tmp, correct_tmp = hist_info(config.num_classes, pred, label)
-        results_dict = {'hist': hist_tmp, 'labeled': labeled_tmp,
-                        'correct': correct_tmp}
+        results_dict = {'hist': hist_tmp, 'labeled': labeled_tmp, 'correct': correct_tmp}
 
         if self.save_path is not None:
             ensure_dir(self.save_path)
@@ -93,12 +92,14 @@ if __name__ == "__main__":
                     'rgb_format': config.rgb_format,
                     'gt_root': config.gt_root_folder,
                     'gt_format': config.gt_format,
+                    'transform_gt': config.gt_transform,
                     'x_root':config.x_root_folder,
                     'x_format': config.x_format,
                     'x_single_channel': config.x_is_single_channel,
                     'class_names': config.class_names,
                     'train_source': config.train_source,
-                    'eval_source': config.eval_source}
+                    'eval_source': config.eval_source,
+                    'class_names': config.class_names}
     val_pre = ValPre()
     dataset = RGBXDataset(data_setting, 'val', val_pre)
  
@@ -108,5 +109,5 @@ if __name__ == "__main__":
                                  config.eval_scale_array, config.eval_flip,
                                  all_dev, args.verbose, args.save_path,
                                  args.show_image)
-        segmentor.run(config.snapshot_dir, args.epochs, config.val_log_file,
+        segmentor.run(config.checkpoint_dir, args.epochs, config.val_log_file,
                       config.link_val_log_file)
