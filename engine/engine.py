@@ -11,10 +11,9 @@ from utils.pyt_utils import load_model, parse_devices, extant_file, link_file, e
 
 logger = get_logger()
 
-
 class State(object):
     def __init__(self):
-        self.epoch = 0
+        self.epoch = 1
         self.iteration = 0
         self.dataloader = None
         self.model = None
@@ -25,7 +24,7 @@ class State(object):
             assert k in ['epoch', 'iteration', 'dataloader', 'model',
                          'optimizer']
             setattr(self, k, v)
-
+            
 
 class Engine(object):
     def __init__(self, custom_parser=None):

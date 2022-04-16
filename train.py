@@ -14,9 +14,9 @@ from torch.nn.parallel import DistributedDataParallel
 from config import config
 from dataloader import get_train_loader
 from models.builder import EncoderDecoder as segmodel
-from nyu import NYUv2
+from dataloader import RGBXDataset
 from utils.init_func import init_weight, group_weight
-from engine.lr_policy import WarmUpPolyLR
+from utils.lr_policy import WarmUpPolyLR
 from engine.engine import Engine
 from engine.logger import get_logger
 from utils.pyt_utils import all_reduce_tensor
@@ -40,7 +40,7 @@ with Engine(custom_parser=parser) as engine:
         torch.cuda.manual_seed(seed)
 
     # data loader
-    train_loader, train_sampler = get_train_loader(engine, NYUv2)
+    train_loader, train_sampler = get_train_loader(engine, RGBXDataset)
 
     if (engine.distributed and (engine.local_rank == 0)) or (not engine.distributed):
         tb_dir = config.tb_dir + '/{}'.format(time.strftime("%b%d_%d-%H-%M", time.localtime()))
@@ -49,7 +49,7 @@ with Engine(custom_parser=parser) as engine:
         engine.link_tb(tb_dir, generate_tb_dir)
 
     # config network and criterion
-    criterion = nn.CrossEntropyLoss(reduction='mean', ignore_index=255)
+    criterion = nn.CrossEntropyLoss(reduction='mean', ignore_index=config.background)
 
     if engine.distributed:
         BatchNorm2d = nn.SyncBatchNorm
@@ -68,9 +68,11 @@ with Engine(custom_parser=parser) as engine:
     
     if config.optimizer == 'AdamW':
         optimizer = torch.optim.AdamW(params_list, lr=base_lr, betas=(0.9, 0.999), weight_decay=config.weight_decay)
-    else:
+    elif config.optimizer == 'SGDM':
         optimizer = torch.optim.SGD(params_list, lr=base_lr, momentum=config.momentum, weight_decay=config.weight_decay)
-    
+    else:
+        raise NotImplementedError
+
     # config lr policy
     total_iteration = config.nepochs * config.niters_per_epoch
     lr_policy = WarmUpPolyLR(base_lr, config.lr_power, total_iteration, config.niters_per_epoch * config.warm_up_epoch)
@@ -108,15 +110,15 @@ with Engine(custom_parser=parser) as engine:
 
             minibatch = dataloader.next()
             imgs = minibatch['data']
-            hha = minibatch['hha_img']
             gts = minibatch['label']
+            modal_xs = minibatch['modal_x']
 
             imgs = imgs.cuda(non_blocking=True)
             gts = gts.cuda(non_blocking=True)
-            hha = hha.cuda(non_blocking=True)
+            modal_xs = modal_xs.cuda(non_blocking=True)
 
             aux_rate = 0.2
-            loss = model(imgs, hha, gts)
+            loss = model(imgs, modal_xs, gts)
 
             # reduce the whole loss over multi-gpu
             if engine.distributed:
