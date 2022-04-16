@@ -106,7 +106,7 @@ class Engine(object):
         t_end = time.time()
         logger.info(
             "Save checkpoint to file {}, "
-            "Time usage:\n\tprepare snapshot: {}, IO: {}".format(
+            "Time usage:\n\tprepare checkpoint: {}, IO: {}".format(
                 path, t_iobegin - t_start, t_end - t_iobegin))
     
     def link_tb(self, source, target):
@@ -115,14 +115,14 @@ class Engine(object):
         link_file(source, target)
 
 
-    def save_and_link_checkpoint(self, snapshot_dir, log_dir, log_dir_link):
-        ensure_dir(snapshot_dir)
+    def save_and_link_checkpoint(self, checkpoint_dir, log_dir, log_dir_link):
+        ensure_dir(checkpoint_dir)
         if not osp.exists(log_dir_link):
             link_file(log_dir, log_dir_link)
-        current_epoch_checkpoint = osp.join(snapshot_dir, 'epoch-{}.pth'.format(
+        current_epoch_checkpoint = osp.join(checkpoint_dir, 'epoch-{}.pth'.format(
             self.state.epoch))
         self.save_checkpoint(current_epoch_checkpoint)
-        last_epoch_checkpoint = osp.join(snapshot_dir, 'epoch-last.pth')
+        last_epoch_checkpoint = osp.join(checkpoint_dir, 'epoch-last.pth')
         link_file(current_epoch_checkpoint, last_epoch_checkpoint)
 
 
@@ -146,7 +146,7 @@ class Engine(object):
         t_end = time.time()
         logger.info(
             "Load checkpoint from file {}, "
-            "Time usage:\n\tIO: {}, restore snapshot: {}".format(
+            "Time usage:\n\tIO: {}, restore checkpoint: {}".format(
                 self.continue_state_object, t_ioend - t_start, t_end - t_ioend))
 
 

@@ -47,11 +47,6 @@ class EncoderDecoder(nn.Module):
             self.channels = [32, 64, 160, 256]
             from .encoders.dual_segformer import mit_b0 as backbone
             self.backbone = backbone(norm_fuse=norm_layer)
-        elif cfg.backbone == 'resnet101':
-            logger.info('Using backbone: ResNet-101')
-            self.channels = [256, 512, 1024, 2048]
-            from .encoders.dual_resnet import resnet101 as backbone
-            self.backbone = backbone(bn_eps=cfg.bn_eps, bn_momentum=cfg.bn_momentum, norm_layer=norm_layer, norm_fuse=norm_layer)
         else:
             logger.info('Using backbone: Segformer-B2')
             from .encoders.dual_segformer import mit_b2 as backbone
@@ -82,16 +77,11 @@ class EncoderDecoder(nn.Module):
             self.aux_rate = 0.4
             self.aux_head = FCNHead(self.channels[2], cfg.num_classes, norm_layer=norm_layer)
 
-        elif cfg.decoder == 'No':
+        else:
             logger.info('No decoder(FCN-32s)')
             from .decoders.fcnhead import FCNHead
             self.decode_head = FCNHead(in_channels=self.channels[-1], kernel_size=3, num_classes=cfg.num_classes, norm_layer=norm_layer)
-        
-        else:
-            logger.info('Using Decoder: Base Decoder')
-            from .decoders.base import BaseHead
-            self.decode_head = BaseHead(in_channels=self.channels, num_classes=cfg.num_classes, norm_layer=norm_layer)
-        
+
         self.criterion = criterion
         if self.criterion:
             self.init_weights(cfg, pretrained=cfg.pretrained_model)

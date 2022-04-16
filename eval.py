@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# encoding: utf-8
 import os
 import cv2
 import argparse
@@ -7,7 +5,6 @@ import numpy as np
 
 import torch
 import torch.nn as nn
-import torch.multiprocessing as mp
 
 from config import config
 from utils.pyt_utils import ensure_dir, link_file, load_model, parse_devices
@@ -15,7 +12,7 @@ from utils.visualize import print_iou, show_img
 from engine.evaluator import Evaluator
 from engine.logger import get_logger
 from utils.metric import hist_info, compute_score
-from nyu import NYUv2
+from dataloader.RGBXDataset import RGBXDataset
 from models.builder import EncoderDecoder as segmodel
 from dataloader import ValPre
 
@@ -25,9 +22,9 @@ class SegEvaluator(Evaluator):
     def func_per_iteration(self, data, device):
         img = data['data']
         label = data['label']
-        hha = data['hha_img']
+        modal_x = data['modal_x']
         name = data['fn']
-        pred = self.sliding_eval_rgbX(img, hha, config.eval_crop_size, config.eval_stride_rate, device)
+        pred = self.sliding_eval_rgbX(img, modal_x, config.eval_crop_size, config.eval_stride_rate, device)
         hist_tmp, labeled_tmp, correct_tmp = hist_info(config.num_classes, pred, label)
         results_dict = {'hist': hist_tmp, 'labeled': labeled_tmp,
                         'correct': correct_tmp}
@@ -82,7 +79,7 @@ class SegEvaluator(Evaluator):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-e', '--epochs', default='last', type=str)
-    parser.add_argument('-d', '--devices', default='1', type=str)
+    parser.add_argument('-d', '--devices', default='0', type=str)
     parser.add_argument('-v', '--verbose', default=False, action='store_true')
     parser.add_argument('--show_image', '-s', default=False,
                         action='store_true')
@@ -92,18 +89,22 @@ if __name__ == "__main__":
     all_dev = parse_devices(args.devices)
 
     network = segmodel(cfg=config, criterion=None, norm_layer=nn.BatchNorm2d)
-    data_setting = {'img_root': config.img_root_folder,
+    data_setting = {'rgb_root': config.rgb_root_folder,
+                    'rgb_format': config.rgb_format,
                     'gt_root': config.gt_root_folder,
-                    'hha_root': config.hha_root_folder,
+                    'gt_format': config.gt_format,
+                    'x_root':config.x_root_folder,
+                    'x_format': config.x_format,
+                    'x_single_channel': config.x_is_single_channel,
+                    'class_names': config.class_names,
                     'train_source': config.train_source,
                     'eval_source': config.eval_source}
     val_pre = ValPre()
-    dataset = NYUv2(data_setting, 'val', val_pre)
-
+    dataset = RGBXDataset(data_setting, 'val', val_pre)
+ 
     with torch.no_grad():
-        segmentor = SegEvaluator(dataset, config.num_classes, config.image_mean,
-                                 config.image_std, config.image_mean,
-                                 config.image_std, network,
+        segmentor = SegEvaluator(dataset, config.num_classes, config.norm_mean,
+                                 config.norm_std, network,
                                  config.eval_scale_array, config.eval_flip,
                                  all_dev, args.verbose, args.save_path,
                                  args.show_image)

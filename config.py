@@ -15,19 +15,10 @@ C.seed = 12345
 remoteip = os.popen('pwd').read()
 C.root_dir = os.path.abspath(os.path.join(os.getcwd(), './'))
 C.abs_dir = osp.realpath(".")
-C.log_dir = osp.abspath('log')
-C.tb_dir = osp.abspath(osp.join(C.log_dir, "tb"))
-C.log_dir_link = osp.join(C.abs_dir, 'log')
-C.snapshot_dir = osp.abspath(osp.join(C.log_dir, "snapshot"))
-
-exp_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())
-C.log_file = C.log_dir + '/log_' + exp_time + '.log'
-C.link_log_file = C.log_file + '/log_last.log'
-C.val_log_file = C.log_dir + '/val_' + exp_time + '.log'
-C.link_val_log_file = C.log_dir + '/val_last.log'
 
 # Dataset config
 """Dataset Path"""
+C.dataset_name = 'NYUDepthV2'
 C.dataset_path = osp.join(C.root_dir, 'datasets', 'NYUDepthv2')
 C.rgb_root_folder = osp.join(C.dataset_path, 'RGB')
 C.rgb_format = '.jpg'
@@ -53,12 +44,6 @@ C.image_height = 480
 C.image_width = 640
 C.norm_mean = np.array([0.485, 0.456, 0.406])
 C.norm_std = np.array([0.229, 0.224, 0.225])
-
-"""Path Config"""
-def add_path(path):
-    if path not in sys.path:
-        sys.path.insert(0, path)
-add_path(osp.join(C.root_dir))
 
 """ Settings for network, this would be different for each kind of model"""
 C.backbone = 'mit_b2' # Remember change the path below.
@@ -88,8 +73,7 @@ C.eval_iter = 25
 C.eval_stride_rate = 2 / 3
 C.eval_scale_array = [1] # [0.75, 1, 1.25] # 
 C.eval_flip = False # True # 
-C.eval_base_size = [480, 640] 
-C.eval_crop_size = [480, 640]
+C.eval_crop_size = [480, 640] # [height weight]
 
 """Display Config"""
 C.checkpoint_start_epoch = 150
@@ -97,6 +81,23 @@ C.checkpoint_step = 25
 #C.record_info_iter = 200
 #C.display_iter = 200
 
+
+"""Path Config"""
+def add_path(path):
+    if path not in sys.path:
+        sys.path.insert(0, path)
+add_path(osp.join(C.root_dir))
+
+C.log_dir = osp.abspath('log_' + C.dataset_name + '_' + C.backbone)
+C.tb_dir = osp.abspath(osp.join(C.log_dir, "tb"))
+C.log_dir_link = osp.join(C.abs_dir, 'log')
+C.checkpoint_dir = osp.abspath(osp.join(C.log_dir, "checkpoint"))
+
+exp_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())
+C.log_file = C.log_dir + '/log_' + exp_time + '.log'
+C.link_log_file = C.log_file + '/log_last.log'
+C.val_log_file = C.log_dir + '/val_' + exp_time + '.log'
+C.link_val_log_file = C.log_dir + '/val_last.log'
 
 if __name__ == '__main__':
     print(config.nepochs)
