@@ -75,12 +75,9 @@ C.eval_scale_array = [1] # [0.75, 1, 1.25] #
 C.eval_flip = False # True # 
 C.eval_crop_size = [480, 640] # [height weight]
 
-"""Display Config"""
-C.checkpoint_start_epoch = 150
-C.checkpoint_step = 25
-#C.record_info_iter = 200
-#C.display_iter = 200
-
+"""Store Config"""
+C.checkpoint_start_epoch = 100
+C.checkpoint_step = 50
 
 """Path Config"""
 def add_path(path):

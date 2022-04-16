@@ -154,12 +154,12 @@ with Engine(custom_parser=parser) as engine:
         if (engine.distributed and (engine.local_rank == 0)) or (not engine.distributed):
             tb.add_scalar('train_loss', sum_loss / len(pbar), epoch)
 
-        if (epoch >= config.checkpoint_start_epoch) and (epoch % config.snapshot_iter == 0) or (epoch == config.nepochs - 1):
+        if (epoch >= config.checkpoint_start_epoch) and (epoch % config.checkpoint_iter == 0) or (epoch == config.nepochs - 1):
             if engine.distributed and (engine.local_rank == 0):
-                engine.checkpoint_and_link_checkpoint(config.snapshot_dir,
+                engine.checkpoint_and_link_checkpoint(config.checkpoint_dir,
                                                 config.log_dir,
                                                 config.log_dir_link)
             elif not engine.distributed:
-                engine.checkpoint_and_link_checkpoint(config.snapshot_dir,
+                engine.checkpoint_and_link_checkpoint(config.checkpoint_dir,
                                                 config.log_dir,
                                                 config.log_dir_link)
