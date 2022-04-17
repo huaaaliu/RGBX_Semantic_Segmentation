@@ -129,7 +129,7 @@ with Engine(custom_parser=parser) as engine:
             loss.backward()
             optimizer.step()
 
-            current_idx = epoch * config.niters_per_epoch + idx
+            current_idx = (epoch- 1) * config.niters_per_epoch + idx 
             lr = lr_policy.get_lr(current_idx)
 
             for i in range(len(optimizer.param_groups)):
@@ -154,7 +154,7 @@ with Engine(custom_parser=parser) as engine:
         if (engine.distributed and (engine.local_rank == 0)) or (not engine.distributed):
             tb.add_scalar('train_loss', sum_loss / len(pbar), epoch)
 
-        if (epoch >= config.checkpoint_start_epoch) and (epoch % config.checkpoint_step == 0) or (epoch == config.nepochs - 1):
+        if (epoch >= config.checkpoint_start_epoch) and (epoch % config.checkpoint_step == 0) or (epoch == config.nepochs):
             if engine.distributed and (engine.local_rank == 0):
                 engine.save_and_link_checkpoint(config.checkpoint_dir,
                                                 config.log_dir,

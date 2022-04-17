@@ -51,7 +51,7 @@ class RGBXDataset(data.Dataset):
             x =  self._open_image(x_path, cv2.IMREAD_GRAYSCALE)
             x = cv2.merge([x, x, x])
         else:
-            x =  self._open_image(x_path, cv2.IMREAD_UNCHANGED)
+            x =  self._open_image(x_path, cv2.COLOR_BGR2RGB)
         
         if self.preprocess is not None:
             rgb, gt, x = self.preprocess(rgb, gt, x)
