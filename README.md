@@ -108,15 +108,15 @@ We offer the pre-trained weights on different RGBX datasets:
 ### NYU-V2(40 categories)
 | Architecture | Backbone | mIOU(SS) | mIOU(MS & Flip) | Weight |
 |:---:|:---:|:---:|:---:| :---:|
-| SegFormer | MiT-B2 | 54.1% | 54.4% |  |
-| SegFormer | MiT-B4 | 56.0% | 56.3% |  |
-| SegFormer | MiT-B5 | 56.8% | 56.9% |  |
+| CMX (SegFormer) | MiT-B2 | 54.1% | 54.4% |  |
+| CMX (SegFormer) | MiT-B4 | 56.0% | 56.3% |  |
+| CMX (SegFormer) | MiT-B5 | 56.8% | 56.9% |  |
 
 ### MFNet(9 categories)
 | Architecture | Backbone | mIOU(SS) | Weight |
 |:---:|:---:|:---:|:---:|
-| SegFormer | MiT-B2 | 58.2% |  |
-| SegFormer | MiT-B4 | 59.7% |  |
+| CMX (SegFormer) | MiT-B2 | 58.2% |  |
+| CMX (SegFormer) | MiT-B4 | 59.7% |  |
  (On the way...)
 
 
