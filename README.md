@@ -92,13 +92,11 @@ For RGB-Depth semantic segmentation, the generation of HHA maps from Depth maps 
 - Checkpoints are stored in `log_<datasetName>_<backboneSize>/checkpoints/` directory.
 
 ### Evaluation
-1. Run
-    
-    Run the evaluation by:
-    ```shell
-    CUDA_VISIBLE_DEVICES="GPU IDs" python eval.py -d="GPU ID" -e="epoch number or range"
-    ```
-    If you want to use multi GPUs please specify multiple GPU IDs.
+Run the evaluation by:
+```shell
+CUDA_VISIBLE_DEVICES="GPU IDs" python eval.py -d="Device ID" -e="epoch number or range"
+```
+If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
 
 
 ## Result
@@ -117,7 +115,8 @@ We offer the pre-trained weights on different RGBX datasets:
 |:---:|:---:|:---:|:---:|
 | CMX (SegFormer) | MiT-B2 | 58.2% |  |
 | CMX (SegFormer) | MiT-B4 | 59.7% |  |
- (On the way...)
+
+(More datasets on the way...)
 
 
 ## Publication

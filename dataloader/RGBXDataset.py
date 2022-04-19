@@ -48,7 +48,7 @@ class RGBXDataset(data.Dataset):
             gt = self._gt_transform(gt) 
 
         if self._x_single_channel:
-            x =  self._open_image(x_path, cv2.IMREAD_GRAYSCALE)
+            x = self._open_image(x_path, cv2.IMREAD_GRAYSCALE)
             x = cv2.merge([x, x, x])
         else:
             x =  self._open_image(x_path, cv2.COLOR_BGR2RGB)
