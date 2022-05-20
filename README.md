@@ -123,7 +123,7 @@ We offer the pre-trained weights on different RGBX datasets (Some weights are no
 ### RGB-Event(20 categories)
 | Architecture | Backbone | mIOU | Weight |
 |:---:|:---:|:---:|:---:| 
-| CMX (SegFormer) | MiT-B4 | 64.28% | [EGBE-MiT-B4](https://drive.google.com/file/d/1UEnuzu6fwYTH1DROZ0hmzuboLGs5HdmQ/view?usp=sharing) |
+| CMX (SegFormer) | MiT-B4 | 64.28% | [RGBE-MiT-B4](https://drive.google.com/file/d/1UEnuzu6fwYTH1DROZ0hmzuboLGs5HdmQ/view?usp=sharing) |
 
 ## Publication
 If you find this repo useful, please consider referencing the following paper:
