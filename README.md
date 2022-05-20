@@ -37,6 +37,7 @@ We have tested the following versions of OS and softwares:
 - Python 3.8.11
 
 2. Install all dependencies.
+Install pytorch, cuda and cudnn, then install other dependencies via:
 ```shell
 pip install -r requirements.txt
 ```
@@ -101,23 +102,30 @@ If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
 
 ## Result
 We offer the pre-trained weights on different RGBX datasets:
-(On the Way...)
+(Some weights are not avaiable yet, Due to the difference of training platforms, some weights may not be correctly loaded.)
 
 ### NYU-V2(40 categories)
 | Architecture | Backbone | mIOU(SS) | mIOU(MS & Flip) | Weight |
 |:---:|:---:|:---:|:---:| :---:|
-| CMX (SegFormer) | MiT-B2 | 54.1% | 54.4% |  |
+| CMX (SegFormer) | MiT-B2 | 54.1% | 54.4% | [NYU-MiT-B2](https://drive.google.com/file/d/1hlyglGnEB0pnWXfHPtBtCGGlKMDh2K--/view?usp=sharing) |
 | CMX (SegFormer) | MiT-B4 | 56.0% | 56.3% |  |
 | CMX (SegFormer) | MiT-B5 | 56.8% | 56.9% |  |
 
 ### MFNet(9 categories)
-| Architecture | Backbone | mIOU(SS) | Weight |
+| Architecture | Backbone | mIOU | Weight |
 |:---:|:---:|:---:|:---:|
-| CMX (SegFormer) | MiT-B2 | 58.2% |  |
+| CMX (SegFormer) | MiT-B2 | 58.2% | [MFNet-MiT-B2](https://drive.google.com/file/d/1wtWxUgDk1N1QOhiGhUavBNc1_Bv9gzOM/view?usp=sharing) |
 | CMX (SegFormer) | MiT-B4 | 59.7% |  |
 
-(More datasets on the way...)
+### ScanNet-V2(20 categories)
+| Architecture | Backbone | mIOU | Weight |
+|:---:|:---:|:---:|:---:| 
+| CMX (SegFormer) | MiT-B2 | 61.3% | [ScanNet-MiT-B2](https://drive.google.com/file/d/1vWsG_wm5p6NSfCFmoWsCAuyWQh1m8dym/view?usp=sharing) |
 
+### RGB-Event(20 categories)
+| Architecture | Backbone | mIOU | Weight |
+|:---:|:---:|:---:|:---:| 
+| CMX (SegFormer) | MiT-B4 | 64.28% | [EGBE-MiT-B4](https://drive.google.com/file/d/1UEnuzu6fwYTH1DROZ0hmzuboLGs5HdmQ/view?usp=sharing) |
 
 ## Publication
 If you find this repo useful, please consider referencing the following paper:
