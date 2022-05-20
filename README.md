@@ -19,7 +19,6 @@
 The official implementation of CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers:
 More details can be found in our paper [[**PDF**](https://arxiv.org/pdf/2203.04838.pdf)].
 
-README is still not complete...
 
 ## Usage
 ### Installation
@@ -101,8 +100,7 @@ If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
 
 
 ## Result
-We offer the pre-trained weights on different RGBX datasets:
-(Some weights are not avaiable yet, Due to the difference of training platforms, some weights may not be correctly loaded.)
+We offer the pre-trained weights on different RGBX datasets (Some weights are not avaiable yet, Due to the difference of training platforms, these weights may not be correctly loaded.):
 
 ### NYU-V2(40 categories)
 | Architecture | Backbone | mIOU(SS) | mIOU(MS & Flip) | Weight |
