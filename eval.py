@@ -6,7 +6,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from config import config
+# from config import config
+from utils.config_utils import get_config_by_file
 from utils.pyt_utils import ensure_dir, link_file, load_model, parse_devices
 from utils.visualize import print_iou, show_img, get_class_colors
 from engine.evaluator import Evaluator
@@ -80,6 +81,8 @@ class SegEvaluator(Evaluator):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--config_file", default=None, type=str,
+        help="plz input your experiment description file",)
     parser.add_argument('-e', '--epochs', default='last', type=str)
     parser.add_argument('-d', '--devices', default='0', type=str)
     parser.add_argument('-v', '--verbose', default=False, action='store_true')
@@ -89,6 +92,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     all_dev = parse_devices(args.devices)
+    config = get_config_by_file(args.config_file)
 
     network = segmodel(cfg=config, criterion=None, norm_layer=nn.BatchNorm2d)
     data_setting = {'rgb_root': config.rgb_root_folder,

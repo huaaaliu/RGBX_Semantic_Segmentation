@@ -1,5 +1,7 @@
 import os.path as osp
 import os
+# os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+# os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 import sys
 import time
 import argparse
@@ -11,7 +13,8 @@ import torch.distributed as dist
 import torch.backends.cudnn as cudnn
 from torch.nn.parallel import DistributedDataParallel
 
-from config import config
+# from config import config
+from utils.config_utils import get_config_by_file
 from dataloader.dataloader import get_train_loader
 from models.builder import EncoderDecoder as segmodel
 from dataloader.RGBXDataset import RGBXDataset
@@ -20,6 +23,7 @@ from utils.lr_policy import WarmUpPolyLR
 from engine.engine import Engine
 from engine.logger import get_logger
 from utils.pyt_utils import all_reduce_tensor
+from utils.losses import BCEDiceLoss
 
 from tensorboardX import SummaryWriter
 
@@ -31,6 +35,7 @@ os.environ['MASTER_PORT'] = '169710'
 with Engine(custom_parser=parser) as engine:
     args = parser.parse_args()
 
+    config = get_config_by_file(args.config_file)
     cudnn.benchmark = True
     seed = config.seed
     if engine.distributed:
@@ -49,14 +54,17 @@ with Engine(custom_parser=parser) as engine:
         engine.link_tb(tb_dir, generate_tb_dir)
 
     # config network and criterion
-    criterion = nn.CrossEntropyLoss(reduction='mean', ignore_index=config.background)
+    if config.num_classes > 2:
+        criterion = nn.CrossEntropyLoss(reduction='mean', ignore_index=config.background)
+    else:
+        criterion = BCEDiceLoss()
 
     if engine.distributed:
         BatchNorm2d = nn.SyncBatchNorm
     else:
         BatchNorm2d = nn.BatchNorm2d
     
-    model=segmodel(cfg=config, criterion=criterion, norm_layer=BatchNorm2d)
+    model = segmodel(cfg=config, criterion=criterion, norm_layer=BatchNorm2d)
     
     # group weight and config optimizer
     base_lr = config.lr
@@ -113,6 +121,11 @@ with Engine(custom_parser=parser) as engine:
             imgs = minibatch['data']
             gts = minibatch['label']
             modal_xs = minibatch['modal_x']
+
+            # gts = torch.unsqueeze(gts, axis=1)
+            # print(gts.dtype)
+            # gts = gts.to(torch.float)
+            # print(gts.dtype)
 
             imgs = imgs.cuda(non_blocking=True)
             gts = gts.cuda(non_blocking=True)
