@@ -650,9 +650,9 @@ class DualSwinTransformer(nn.Module):
 
             # Feature Rectify
             x = x.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
-            x_d = x.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
+            x_d = x_d.view(-1, H, W, self.num_features[i]).permute(0, 3, 1, 2).contiguous()
             x, x_d = self.FRMs[i](x, x_d)
-            x = x_d.flatten(2).transpose(1, 2)
+            x = x.flatten(2).transpose(1, 2)
             x_d = x_d.flatten(2).transpose(1, 2)
 
             x_out, x_out_d = x, x_d
