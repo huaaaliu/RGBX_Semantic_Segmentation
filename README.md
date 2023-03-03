@@ -18,6 +18,8 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/thermal-image-segmentation-on-rt-5k)](https://paperswithcode.com/sota/thermal-image-segmentation-on-rt-5k?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-kitti-360)](https://paperswithcode.com/sota/semantic-segmentation-on-kitti-360?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-deliver)](https://paperswithcode.com/sota/semantic-segmentation-on-deliver?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
+
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
 The official implementation of CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers:
