@@ -77,6 +77,15 @@ Orgnize the dataset folder in the following structure:
 
 For RGB-Depth semantic segmentation, the generation of HHA maps from Depth maps can refer to [https://github.com/charlesCXK/Depth2HHA-python](https://github.com/charlesCXK/Depth2HHA-python).
 
+For preparation of other datasets, please refer to the original websites:
+- [NYU Depth V2](https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html)
+- [SUN-RGBD](https://rgbd.cs.princeton.edu/)
+- [ScanNetV2](http://www.scan-net.org/)
+- [RGB-T MFNet](https://github.com/haqishen/MFNet-pytorch)
+- [RGB-P ZJU](http://wangkaiwei.org/downloadeg.html)
+- [RGB-E EventScape](https://github.com/uzh-rpg/rpg_ramnet#eventscape)
+- [RGB-L KITTI-360](https://www.cvlibs.net/datasets/kitti-360/)
+
 ### Train
 1. Pretrain weights:
 
