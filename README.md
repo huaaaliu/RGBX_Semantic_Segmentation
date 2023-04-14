@@ -16,6 +16,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/thermal-image-segmentation-on-rgb-t-glass)](https://paperswithcode.com/sota/thermal-image-segmentation-on-rgb-t-glass?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-event-based)](https://paperswithcode.com/sota/semantic-segmentation-on-event-based?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/thermal-image-segmentation-on-kp-day-night)](https://paperswithcode.com/sota/thermal-image-segmentation-on-kp-day-night?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/multispectral-object-detection-on-flir)](https://paperswithcode.com/sota/multispectral-object-detection-on-flir?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
@@ -112,7 +113,7 @@ If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
 
 
 ## Result
-We offer the pre-trained weights on different RGBX datasets (Some weights are not avaiable yet, Due to the difference of training platforms, these weights may not be correctly loaded.):
+We offer the pre-trained weights on different RGBX datasets (Some weights are not available yet. Due to the difference of training platforms, these weights may not be correctly loaded):
 
 ### NYU-V2(40 categories)
 | Architecture | Backbone | mIOU(SS) | mIOU(MS & Flip) | Weight |
