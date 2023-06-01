@@ -16,7 +16,6 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/thermal-image-segmentation-on-rgb-t-glass)](https://paperswithcode.com/sota/thermal-image-segmentation-on-rgb-t-glass?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-event-based)](https://paperswithcode.com/sota/semantic-segmentation-on-event-based?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/thermal-image-segmentation-on-kp-day-night)](https://paperswithcode.com/sota/thermal-image-segmentation-on-kp-day-night?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/multispectral-object-detection-on-flir)](https://paperswithcode.com/sota/multispectral-object-detection-on-flir?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
