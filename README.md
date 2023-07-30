@@ -20,7 +20,7 @@
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
-The official implementation of CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers (T-ITS 2023):
+The official implementation of **CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers (IEEE T-ITS 2023)**:
 More details can be found in our paper [[**PDF**](https://arxiv.org/pdf/2203.04838.pdf)].
 
 
