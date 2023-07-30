@@ -20,7 +20,7 @@
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
-The official implementation of CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers:
+The official implementation of CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers (T-ITS 2023):
 More details can be found in our paper [[**PDF**](https://arxiv.org/pdf/2203.04838.pdf)].
 
 
@@ -141,11 +141,11 @@ We offer the pre-trained weights on different RGBX datasets (Some weights are no
 ## Publication
 If you find this repo useful, please consider referencing the following paper:
 ```
-@article{liu2022cmx,
-  title={CMX: Cross-Modal Fusion for RGB-X Semantic Segmentation with Transformers},
-  author={Liu, Huayao and Zhang, Jiaming and Yang, Kailun and Hu, Xinxin and Stiefelhagen, Rainer},
-  journal={arXiv preprint arXiv:2203.04838},
-  year={2022}
+@article{zhang2023cmx,
+  title={CMX: Cross-modal fusion for RGB-X semantic segmentation with transformers},
+  author={Zhang, Jiaming and Liu, Huayao and Yang, Kailun and Hu, Xinxin and Liu, Ruiping and Stiefelhagen, Rainer},
+  journal={IEEE Transactions on Intelligent Transportation Systems},
+  year={2023}
 }
 ```
 
