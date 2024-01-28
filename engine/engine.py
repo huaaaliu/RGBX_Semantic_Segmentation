@@ -61,6 +61,8 @@ class Engine(object):
 
     def inject_default_parser(self):
         p = self.parser
+        p.add_argument("-f", "--config_file", default=None, type=str,
+                            help="plz input your experiment description file", )
         p.add_argument('-d', '--devices', default='',
                        help='set data parallel training')
         p.add_argument('-c', '--continue', type=extant_file,
