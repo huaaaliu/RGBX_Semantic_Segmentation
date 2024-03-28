@@ -19,6 +19,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-llrgbd-synthetic)](https://paperswithcode.com/sota/semantic-segmentation-on-llrgbd-synthetic?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/thermal-image-segmentation-on-noisy-rs-rgb-t)](https://paperswithcode.com/sota/thermal-image-segmentation-on-noisy-rs-rgb-t?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-uplight)](https://paperswithcode.com/sota/semantic-segmentation-on-uplight?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-spectralwaste)](https://paperswithcode.com/sota/semantic-segmentation-on-spectralwaste?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
