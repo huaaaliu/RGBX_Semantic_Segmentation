@@ -191,6 +191,7 @@ def load_model(model, model_file, is_restore=False):
 
     return model
 
+
 def parse_devices(input_devices):
     if input_devices.endswith('*'):
         devices = list(range(torch.cuda.device_count()))
