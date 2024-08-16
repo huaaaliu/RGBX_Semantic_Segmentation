@@ -38,6 +38,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/pedestrian-detection-on-cvc14)](https://paperswithcode.com/sota/pedestrian-detection-on-cvc14?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/pedestrian-detection-on-dvtod)](https://paperswithcode.com/sota/pedestrian-detection-on-dvtod?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/image-manipulation-localization-on-coverage)](https://paperswithcode.com/sota/image-manipulation-localization-on-coverage?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/image-manipulation-localization-on-columbia)](https://paperswithcode.com/sota/image-manipulation-localization-on-columbia?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
