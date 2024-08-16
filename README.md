@@ -35,6 +35,7 @@
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-synthetic-bathing)](https://paperswithcode.com/sota/semantic-segmentation-on-synthetic-bathing?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/semantic-segmentation-on-replica)](https://paperswithcode.com/sota/semantic-segmentation-on-replica?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/camouflaged-object-segmentation-on-pcod-1200)](https://paperswithcode.com/sota/camouflaged-object-segmentation-on-pcod-1200?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/cmx-cross-modal-fusion-for-rgb-x-semantic/pedestrian-detection-on-cvc14)](https://paperswithcode.com/sota/pedestrian-detection-on-cvc14?p=cmx-cross-modal-fusion-for-rgb-x-semantic)
 
 ![Example segmentation](segmentation.jpg?raw=true "Example segmentation")
 
