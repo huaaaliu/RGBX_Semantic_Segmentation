@@ -111,7 +111,7 @@ For preparation of other datasets, please refer to the original websites:
 - [SUN-RGBD](https://rgbd.cs.princeton.edu/)
 - [ScanNetV2](http://www.scan-net.org/)
 - [RGB-T MFNet](https://github.com/haqishen/MFNet-pytorch)
-- [RGB-P ZJU](http://wangkaiwei.org/downloadeg.html)
+- [RGB-P ZJU](https://huggingface.co/datasets/Zhonghua/ZJU_RGB_P/tree/main)
 - [RGB-E EventScape](https://github.com/uzh-rpg/rpg_ramnet#eventscape)
 - [RGB-L KITTI-360](https://www.cvlibs.net/datasets/kitti-360/)
 
