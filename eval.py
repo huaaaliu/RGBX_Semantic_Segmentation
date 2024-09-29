@@ -6,17 +6,20 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from config import config
+# from config import config
+from utils.config_utils import get_config_by_file
 from utils.pyt_utils import ensure_dir, link_file, load_model, parse_devices
-from utils.visualize import print_iou, show_img
+from utils.visualize import print_iou, show_img, get_class_colors
 from engine.evaluator import Evaluator
 from engine.logger import get_logger
 from utils.metric import hist_info, compute_score
 from dataloader.RGBXDataset import RGBXDataset
 from models.builder import EncoderDecoder as segmodel
 from dataloader.dataloader import ValPre
+from PIL import Image
 
 logger = get_logger()
+
 
 class SegEvaluator(Evaluator):
     def func_per_iteration(self, data, device):
@@ -36,7 +39,7 @@ class SegEvaluator(Evaluator):
 
             # save colored result
             result_img = Image.fromarray(pred.astype(np.uint8), mode='P')
-            class_colors = get_class_colors()
+            class_colors = get_class_colors(config.num_classes)
             palette_list = list(np.array(class_colors).flat)
             if len(palette_list) < 768:
                 palette_list += [0] * (768 - len(palette_list))
@@ -75,8 +78,11 @@ class SegEvaluator(Evaluator):
                                 dataset.class_names, show_no_back=False)
         return result_line
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--config_file", default=None, type=str,
+        help="plz input your experiment description file",)
     parser.add_argument('-e', '--epochs', default='last', type=str)
     parser.add_argument('-d', '--devices', default='0', type=str)
     parser.add_argument('-v', '--verbose', default=False, action='store_true')
@@ -86,6 +92,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     all_dev = parse_devices(args.devices)
+    config = get_config_by_file(args.config_file)
 
     network = segmodel(cfg=config, criterion=None, norm_layer=nn.BatchNorm2d)
     data_setting = {'rgb_root': config.rgb_root_folder,

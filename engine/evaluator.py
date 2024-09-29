@@ -50,29 +50,34 @@ class Evaluator(object):
             models = [model_indice, ]
         elif "-" in model_indice:
             start_epoch = int(model_indice.split("-")[0])
-            end_epoch = model_indice.split("-")[1]
+            end_epoch = int(model_indice.split("-")[1])
 
-            models = os.listdir(model_path)
-            models.remove("epoch-last.pth")
-            sorted_models = [None] * len(models)
-            model_idx = [0] * len(models)
+            models = []
+            for i in range(start_epoch, end_epoch + 1):
+                models.append(os.path.join(model_path, 'epoch-%s.pth' % i))
 
-            for idx, m in enumerate(models):
-                num = m.split(".")[0].split("-")[1]
-                model_idx[idx] = num
-                sorted_models[idx] = m
-            model_idx = np.array([int(i) for i in model_idx])
-
-            down_bound = model_idx >= start_epoch
-            up_bound = [True] * len(sorted_models)
-            if end_epoch:
-                end_epoch = int(end_epoch)
-                assert start_epoch < end_epoch
-                up_bound = model_idx <= end_epoch
-            bound = up_bound * down_bound
-            model_slice = np.array(sorted_models)[bound]
-            models = [os.path.join(model_path, model) for model in
-                      model_slice]
+            # models = os.listdir(model_path)
+            # models.remove("epoch-last.pth")
+            # sorted_models = [None] * len(models)
+            # model_idx = [0] * len(models)
+            #
+            # for idx, m in enumerate(models):
+            #     num = m.split(".")[0].split("-")[1]
+            #     model_idx[idx] = num
+            #     sorted_models[idx] = m
+            # model_idx = np.array([int(i) for i in model_idx])
+            # model_idx.sort()
+            #
+            # down_bound = model_idx >= start_epoch
+            # up_bound = [True] * len(sorted_models)
+            # if end_epoch:
+            #     end_epoch = int(end_epoch)
+            #     assert start_epoch < end_epoch
+            #     up_bound = model_idx <= end_epoch
+            # bound = up_bound * down_bound
+            # model_slice = np.array(sorted_models)[bound]
+            # models = [os.path.join(model_path, model) for model in
+            #           model_slice]
         else:
             if os.path.exists(model_path):
                 models = [os.path.join(model_path, 'epoch-%s.pth' % model_indice), ]
@@ -306,7 +311,10 @@ class Evaluator(object):
     def sliding_eval_rgbX(self, img, modal_x, crop_size, stride_rate, device=None):
         crop_size = to_2tuple(crop_size)
         ori_rows, ori_cols, _ = img.shape
-        processed_pred = np.zeros((ori_rows, ori_cols, self.class_num))
+        if self.class_num < 2:
+            processed_pred = np.zeros((ori_rows, ori_cols))
+        else:
+            processed_pred = np.zeros((ori_rows, ori_cols, self.class_num))
 
         for s in self.multi_scales:
             img_scale = cv2.resize(img, None, fx=s, fy=s, interpolation=cv2.INTER_LINEAR)
@@ -319,7 +327,8 @@ class Evaluator(object):
             processed_pred += self.scale_process_rgbX(img_scale, modal_x_scale, (ori_rows, ori_cols),
                                                         crop_size, stride_rate, device)
 
-        pred = processed_pred.argmax(2)
+        if self.class_num > 1:
+            pred = processed_pred.argmax(2)
 
         return pred
 

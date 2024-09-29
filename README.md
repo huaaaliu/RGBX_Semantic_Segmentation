@@ -122,11 +122,11 @@ For preparation of other datasets, please refer to the original websites:
 
 2. Config
 
-    Edit config file in `configs.py`, including dataset and network settings.
+    Edit config file in configs directory, including dataset and network settings.
 
 3. Run multi GPU distributed training:
     ```shell
-    $ CUDA_VISIBLE_DEVICES="GPU IDs" python -m torch.distributed.launch --nproc_per_node="GPU numbers you want to use" train.py
+    $ CUDA_VISIBLE_DEVICES="GPU IDs" python -m torch.distributed.launch --nproc_per_node="GPU numbers you want to use" train.py -f "config_file"
     ```
 
 - The tensorboard file is saved in `log_<datasetName>_<backboneSize>/tb/` directory.
@@ -135,7 +135,7 @@ For preparation of other datasets, please refer to the original websites:
 ### Evaluation
 Run the evaluation by:
 ```shell
-CUDA_VISIBLE_DEVICES="GPU IDs" python eval.py -d="Device ID" -e="epoch number or range"
+CUDA_VISIBLE_DEVICES="GPU IDs" python eval.py -f "config_file" -d="Device ID" -e="epoch number or range"
 ```
 If you want to use multi GPUs please specify multiple Device IDs (0,1,2...).
 
